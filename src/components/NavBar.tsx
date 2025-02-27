@@ -7,11 +7,12 @@ export const NavBar = () => {
         <div>
             <Navbar bg="dark" data-bs-theme="dark">
                 <Container>
-                <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-                <Nav className="me-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#features">Features</Nav.Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>
+                <Navbar.Brand href="#Navbar"> Navbar </Navbar.Brand>
+                <Nav className="navBar">
+                    <Nav.Link href="#Book"> Book </Nav.Link>
+                    <Nav.Link href="#Member"> Member </Nav.Link>
+                    <Nav.Link href="#Lending"> Lending </Nav.Link>
+                    <Nav.Link href="#Staff"> Staff </Nav.Link>
                 </Nav>
                 </Container>
             </Navbar>

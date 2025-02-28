@@ -48,15 +48,16 @@ export const Book = () => {
             <Table striped="columns">
                 <thead>
                     <tr>
-                        {/* <th> Number </th> */}
-                        {tHeadings.map((headings)=>(
-                            <th>{headings}</th>
+                        <th> Number </th>
+                        {tHeadings.map((headings,index)=>(
+                            <th key={index}>{headings}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {books.map((row)=>(
+                    {books.map((row,rowIndex)=>(
                         <tr key={row.bookId}>
+                            <td>{rowIndex + 1}</td>
                             {Object.values(row).map((cell,index)=> (
                                 <td key={index}>{cell}</td>
                             ))}

@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
 import { GetBooks } from "../service/Book";
-import axios from "axios";
 
 export const Book = () => {
 
@@ -19,9 +18,26 @@ export const Book = () => {
         "Last Updated Time"
     ];
 
+    interface Books {
+        bookId: string;
+        title: string;
+        publisher: string;
+        isbn: string;
+        author: string;
+        edition: string;
+        price: number;
+        totalQty: number;
+        availableQty: number; 
+        lastUpdatedDate: string; 
+        lastUpdatedTime: string; 
+    }
+
+    const [books,setBooks]= useState<Books[]>([]);
+
     useEffect(()=> {
         const loadData = async () => {
-            const getAllBooks = await GetBooks();    
+            const getAllBooks = await GetBooks(); 
+            setBooks(getAllBooks);   
         }
 
         loadData();

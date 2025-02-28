@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
-import { GetBooks } from "../service/Book";
+import { DeleteBook, GetBooks } from "../service/Book";
 import Button from "react-bootstrap/esm/Button";
 
 export const Book = () => {
@@ -34,10 +34,10 @@ export const Book = () => {
         lastUpdatedTime: string; 
     }
 
-    const [books,setBooks]= useState<Books[]>([]);
+    const [books,setBooks] = useState<Books[]>([]);
 
     useEffect(()=> {
-        const loadData = async () => {
+        const loadData = async() => {
             const getAllBooks = await GetBooks(); 
             setBooks(getAllBooks);   
         }
@@ -45,16 +45,19 @@ export const Book = () => {
         loadData();
     });
 
-    const handleOnedit = () => {
-        alert("edit");
-    }
-
-    const handleOnDelete = () => {
-        alert("delete");
+    const handleOnDelete = async(bookId :string)=> {
+        try {
+            DeleteBook(bookId);
+            setBooks(
+                books.filter((book)=> book.bookId !== bookId )
+            );
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     return (
-        <div style={{ maxHeight: "400px", overflow: "auto", border: "2px solid #ddd" }}>
+        <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
             <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
                 <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
                     <tr>
@@ -70,12 +73,11 @@ export const Book = () => {
                             <th scope="row">{rowIndex + 1}</th>
                             {Object.values(row).map((cell, index) => (
                                 <td key={index}>{cell}</td>
-                            ))}
+                            ))};
                             <td>
-                                <div className="d-flex gap-2">
-                                    <Button variant="outline-secondary" onClick={handleOnedit}>Edit</Button>
-                                    <Button variant="outline-danger" onClick={handleOnDelete}>Delete</Button>
-                                </div>
+                                <Button variant="outline-secondary"> Edit </Button>
+                                <Button variant="outline-danger" onClick={()=> handleOnDelete(row.bookId)}> Delete </Button>
+                                    
                             </td>
                         </tr>
                     ))}
@@ -91,3 +93,5 @@ export const Book = () => {
         </div>
     );
 }
+
+

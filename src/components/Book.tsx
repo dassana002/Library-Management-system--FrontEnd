@@ -45,6 +45,14 @@ export const Book = () => {
         loadData();
     });
 
+    const handleOnedit = () => {
+        alert("edit");
+    }
+
+    const handleOnDelete = () => {
+        alert("delete");
+    }
+
     return (
         <div style={{ maxHeight: "400px", overflow: "auto", border: "2px solid #ddd" }}>
             <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
@@ -65,8 +73,8 @@ export const Book = () => {
                             ))}
                             <td>
                                 <div className="d-flex gap-2">
-                                    <Button variant="outline-secondary">Edit</Button>
-                                    <Button variant="outline-danger">Delete</Button>
+                                    <Button variant="outline-secondary" onClick={handleOnedit}>Edit</Button>
+                                    <Button variant="outline-danger" onClick={handleOnDelete}>Delete</Button>
                                 </div>
                             </td>
                         </tr>

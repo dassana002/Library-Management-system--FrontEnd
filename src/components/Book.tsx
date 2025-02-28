@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import Table from "react-bootstrap/esm/Table";
+import { GetBooks } from "../service/Book";
+import axios from "axios";
 
 export const Book = () => {
 
@@ -15,6 +18,14 @@ export const Book = () => {
         "Last Updated Date",
         "Last Updated Time"
     ];
+
+    useEffect(()=> {
+        const loadData = async () => {
+            const getAllBooks = await GetBooks();    
+        }
+
+        loadData();
+    });
 
     return(
         <div>

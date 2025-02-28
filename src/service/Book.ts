@@ -4,7 +4,8 @@ const getAllBookURL = "http://localhost:2222/librarySoftware/api/v1/book/getAllb
 
 export const GetBooks = async () =>{
     try {
-        const responce = await axios.get(getAllBookURL);
+        const response = await axios.get(getAllBookURL);
+        return response.data;
     } catch (error) {
         console.error(error);
     }

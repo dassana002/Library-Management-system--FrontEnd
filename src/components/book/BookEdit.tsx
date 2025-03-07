@@ -17,13 +17,18 @@ interface Book {
 interface BookPops {
     show : boolean;
     selectedRow : Book | null;
+    handleOnClose : ()=> void ;
 }
 
 
-export const BookEdit = ({show , selectedRow} : BookPops )=> {
+export const BookEdit = ({show , selectedRow , handleOnClose} : BookPops )=> {
 
     return(
-        <Modal show={show}  centered>
+        <Modal 
+            show={show}
+            onHide={handleOnClose}    
+        centered>
+            
             <Modal.Header closeButton>
                 <Modal.Title>Modal title</Modal.Title>
             </Modal.Header>
@@ -33,7 +38,7 @@ export const BookEdit = ({show , selectedRow} : BookPops )=> {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="secondary"> Close </Button>
+                <Button variant="secondary" > Close </Button>
                 <Button variant="primary"> Save </Button>
             </Modal.Footer>
       </Modal>     

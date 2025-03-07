@@ -48,6 +48,7 @@ export const Book = () => {
         loadData();
     },[]);
 
+    
     const handleOnEdit = async(row :Book)=> {
         setShowEditForm(true);
         setSelectRow(row);
@@ -65,6 +66,10 @@ export const Book = () => {
         } catch (err) {
             console.error(err);
         }
+    }
+
+    const handleOnClose = ()=> {
+        setShowEditForm(false);
     }
 
     return (
@@ -109,9 +114,11 @@ export const Book = () => {
             </Table>
 
         {/*  BookEdit  (Child Component) */}
+        {/* show and selectedRow is arguments (Properties / Pops ) */}
             <BookEdit     
                 show = {showEditForm} 
-                selectedRow = {selectedRow}  
+                selectedRow = {selectedRow}
+                handleOnClose = {handleOnClose}
             />        
         </div>
     );

@@ -1,9 +1,14 @@
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/esm/Modal";
 
-export const BookEdit = ()=> {
+interface BookPops {
+    show : boolean;
+}
+
+export const BookEdit = ({show} : BookPops)=> {
+
     return(
-        <Modal show={true}  centered>
+        <Modal show={show}  centered>
             <Modal.Header closeButton>
                 <Modal.Title>Modal title</Modal.Title>
             </Modal.Header>

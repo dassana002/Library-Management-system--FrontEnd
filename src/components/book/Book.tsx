@@ -21,7 +21,7 @@ export const Book = () => {
         "Options"
     ];
 
-    interface Books {
+    interface Book {
         bookId: string;
         title: string;
         publisher: string;
@@ -35,9 +35,10 @@ export const Book = () => {
         lastUpdatedTime: string; 
     }
 
-    const [books,setBooks] = useState<Books[]>([]);
-    const [showEditForm,setShowEditForm] = useState(false);  
-
+    const [books , setBooks] = useState<Book[]>([]);                    // Table eke books rows wla changers kragann use krai
+    const [showEditForm , setShowEditForm] = useState(false);           // Edit Form eka show kranna use krai
+    const [selectedRow , setSelectRow] = useState<Book | null>(null);   // select krapu row eka Edit form ekata pass kragann use krano
+ 
     useEffect(()=> {  // component eka Mount wena time ekedi wenn one wada kragann puluwan UseEffect() method eka use krala
         const loadData = async() => {
             const getAllBooks = await GetBooks(); // Books Data Object Array ekk (JSON) BackEnd eken apita enne 
@@ -66,6 +67,9 @@ export const Book = () => {
     }
 
     return (
+
+        // Book  (Parent Component)
+
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
             <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
                 <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
@@ -103,9 +107,10 @@ export const Book = () => {
                 </tfoot>
             </Table>
 
-        {/*  BookEdit   */}
-        <BookEdit />    
-            show = {showEditForm}
+        {/*  BookEdit  (Child Component) */}
+            <BookEdit     
+                show = {showEditForm}   
+            />        
         </div>
     );
 }

@@ -99,7 +99,7 @@ export const Book = () => {
 
                             <td>
                                 <Button variant="outline-secondary" onDoubleClick={()=> handleOnEdit(row)}> Edit </Button>
-                                <Button variant="outline-danger" onClick={()=> handleOnDelete(row.bookId)}> Delete </Button>
+                                <Button variant="outline-danger" onDoubleClick={()=> handleOnDelete(row.bookId)}> Delete </Button>
                             </td>
                         </tr>
                     ))}

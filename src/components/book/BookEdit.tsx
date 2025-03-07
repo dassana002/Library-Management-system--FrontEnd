@@ -17,7 +17,7 @@ interface Book {
 interface BookPops {
     show : boolean;
     selectedRow : Book | null;
-    handleOnClose : ()=> void ;    // Book component eken handleOnClose() fuction eka pass kragatta  , JS wala puluwan functions pass kranna
+    handleOnClose : ()=> void ;    // 02. Book component eken handleOnClose() fuction eka pass kragatta  , JS wala puluwan functions pass kranna
 }
 
 

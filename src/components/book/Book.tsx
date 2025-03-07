@@ -48,8 +48,9 @@ export const Book = () => {
         loadData();
     },[]);
 
-    const handleOnEdit = async(bookId :string)=> {
+    const handleOnEdit = async(row :Book)=> {
         setShowEditForm(true);
+        setSelectRow(row);
     }
 
     const handleOnDelete = async(bookId :string)=> {
@@ -92,7 +93,7 @@ export const Book = () => {
                             )};
 
                             <td>
-                                <Button variant="outline-secondary" onDoubleClick={()=> handleOnEdit(row.bookId)}> Edit </Button>
+                                <Button variant="outline-secondary" onDoubleClick={()=> handleOnEdit(row)}> Edit </Button>
                                 <Button variant="outline-danger" onClick={()=> handleOnDelete(row.bookId)}> Delete </Button>
                             </td>
                         </tr>
@@ -109,7 +110,8 @@ export const Book = () => {
 
         {/*  BookEdit  (Child Component) */}
             <BookEdit     
-                show = {showEditForm}   
+                show = {showEditForm} 
+                selectedRow = {selectedRow}  
             />        
         </div>
     );

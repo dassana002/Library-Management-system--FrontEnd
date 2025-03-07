@@ -1,11 +1,26 @@
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/esm/Modal";
 
+interface Book {
+    bookId: string;
+    title: string;
+    publisher: string;
+    isbn: string;
+    author: string;
+    edition: string;
+    price: number;
+    totalQty: number;
+    availableQty: number; 
+    lastUpdatedDate: string; 
+    lastUpdatedTime: string; 
+}
 interface BookPops {
     show : boolean;
+    selectedRow : Book | null;
 }
 
-export const BookEdit = ({show} : BookPops)=> {
+
+export const BookEdit = ({show , selectedRow} : BookPops )=> {
 
     return(
         <Modal show={show}  centered>

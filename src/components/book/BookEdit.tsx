@@ -17,18 +17,22 @@ interface Book {
 interface BookPops {
     show : boolean;
     selectedRow : Book | null;
-    handleOnClose : ()=> void ;
+    handleOnClose : ()=> void ;    // Book component eken handleOnClose() fuction eka pass kragatta  , JS wala puluwan functions pass kranna
 }
 
 
 export const BookEdit = ({show , selectedRow , handleOnClose} : BookPops )=> {
+
+    const handleClose = () =>{      // 01 . Parent Component eke handleOnClose() ekata call kranwa
+        handleOnClose();
+    }
 
     return(
         <Modal 
             show={show}
             onHide={handleOnClose}    
         centered>
-            
+
             <Modal.Header closeButton>
                 <Modal.Title>Modal title</Modal.Title>
             </Modal.Header>
@@ -38,7 +42,7 @@ export const BookEdit = ({show , selectedRow , handleOnClose} : BookPops )=> {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="secondary" > Close </Button>
+                <Button variant="secondary" onClick={handleClose}> Close </Button>
                 <Button variant="primary"> Save </Button>
             </Modal.Footer>
       </Modal>     

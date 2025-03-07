@@ -18,3 +18,13 @@ export const DeleteBook = async(bookId :string) => {
         console.error(err);
     }
 }
+
+export const UpdateBook = async(bookId :string) => {
+    try {
+        const responce = await axios.put(`${baseUrl}/${bookId}`);
+        return responce.data;
+    } catch (err) {
+        console.error(err);
+    }
+}
+

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
-import { DeleteBook, GetBooks } from "../service/Book";
+import { DeleteBook, GetBooks } from "../../service/Book";
 import Button from "react-bootstrap/esm/Button";
+import { BookEdit } from "./BookEdit";
 
 export const Book = () => {
 
@@ -35,21 +36,29 @@ export const Book = () => {
     }
 
     const [books,setBooks] = useState<Books[]>([]);
+    const [showEditForm,setShowEditForm] = useState(false);  
 
-    useEffect(()=> {
+    useEffect(()=> {  // component eka Mount wena time ekedi wenn one wada kragann puluwan UseEffect() method eka use krala
         const loadData = async() => {
-            const getAllBooks = await GetBooks(); 
+            const getAllBooks = await GetBooks(); // Books Data Object Array ekk (JSON) BackEnd eken apita enne 
             setBooks(getAllBooks);   
         }
 
         loadData();
-    });
+    },[]);
+
+    const handleOnEdit = async(bookId :string)=> {
+        setShowEditForm(true);
+    }
 
     const handleOnDelete = async(bookId :string)=> {
         try {
-            DeleteBook(bookId);
+            await DeleteBook(bookId);
             setBooks(
-                books.filter((book)=> book.bookId !== bookId )
+                books.filter(
+                    (book)=> 
+                        book.bookId !== bookId 
+                )
             );
         } catch (err) {
             console.error(err);
@@ -71,13 +80,16 @@ export const Book = () => {
                     {books.map((row, rowIndex) => (
                         <tr key={row.bookId}>
                             <th scope="row">{rowIndex + 1}</th>
-                            {Object.values(row).map((cell, index) => (
-                                <td key={index}>{cell}</td>
-                            ))};
+                            
+                            {Object.values(row).map(
+                                (cell, index) => (
+                                    <td key={index}>{cell}</td>
+                                )
+                            )};
+
                             <td>
-                                <Button variant="outline-secondary"> Edit </Button>
+                                <Button variant="outline-secondary" onDoubleClick={()=> handleOnEdit(row.bookId)}> Edit </Button>
                                 <Button variant="outline-danger" onClick={()=> handleOnDelete(row.bookId)}> Delete </Button>
-                                    
                             </td>
                         </tr>
                     ))}
@@ -90,6 +102,10 @@ export const Book = () => {
                     </tr>
                 </tfoot>
             </Table>
+
+        {/*  BookEdit   */}
+        <BookEdit />    
+            show = {showEditForm}
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
-import { DeleteBook, GetBooks, UpdateBook } from "../../service/Book";
+import { DeleteBook, GetBooks, UpdateBooks } from "../../service/Book";
 import Button from "react-bootstrap/esm/Button";
 import { BookEdit } from "./BookEdit";
 
@@ -54,6 +54,15 @@ export const Book = () => {
         setSelectRow(row);
     }
 
+    // 02.03.04
+    const handleUpdateState = (updateBook :Book)=> {
+        const updateBooks = books.map((book)=>
+            book.bookId === updateBook.bookId ? updateBook : book
+        );
+
+        setBooks(updateBooks);
+    }
+
     const handleOnDelete = async(bookId :string)=> {
         try {
             await DeleteBook(bookId);
@@ -72,9 +81,6 @@ export const Book = () => {
         setShowEditForm(false);
     }
 
-    // const updateBooks = ()=> {  // BookEdit form eke changers Book Component ekata update kranwa
-
-    // }
 
     return (
 
@@ -92,14 +98,14 @@ export const Book = () => {
                 </thead>
                 <tbody>
                     {books.map((row, rowIndex) => (
-                        <tr key={row.bookId}>
+                        <tr key={row.bookId }>
                             <th scope="row">{rowIndex + 1}</th>
                             
                             {Object.values(row).map(
                                 (cell, index) => (
                                     <td key={index}>{cell}</td>
                                 )
-                            )};
+                            )}
 
                             <td>
                                 <Button variant="outline-secondary" onDoubleClick={()=> handleOnEdit(row)}> Edit </Button>
@@ -123,7 +129,8 @@ export const Book = () => {
                 show = {showEditForm} 
                 selectedRow = {selectedRow}
                 handleOnClose = {handleOnClose}
-                // updateBooks = {updateBooks}
+                updateBooks = {UpdateBooks}  
+                handleUpdateState = {handleUpdateState}    
             />        
         </div>
     );

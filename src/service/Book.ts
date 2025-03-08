@@ -19,9 +19,10 @@ export const DeleteBook = async(bookId :string) => {
     }
 }
 
-export const UpdateBook = async(book :any) => {
+export const UpdateBooks = async(book :any) => {
     try {
-        await axios.patch(`${baseUrl} ?bookId=${book.bookId}`, book);
+        await axios.patch(`${baseUrl}?bookId=${book.bookId}`, book);
+        
     } catch (err) {
         console.error(err);
     }

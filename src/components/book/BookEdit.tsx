@@ -14,20 +14,20 @@ interface Book {
     price: number;
     totalQty: number;
     avilableQty: number;
-    // lastUpdatedDate: string;
-    // lastUpdatedTime: string;
+    lastUpdatedDate: string;
+    lastUpdatedTime: string;
 }
 interface BookPops {
     show : boolean;
     selectedRow : Book | null;
-    handleOnClose : () => void;                             // 03.02. Book component eken handleOnClose() fuction eka pass kragatta  , JS wala puluwan functions pass kranna
-      
+    handleOnClose : ()=> void;                             // 03.02. Book component eken handleOnClose() fuction eka pass kragatta  , JS wala puluwan functions pass kranna
+    updateBooks : (book :Book)=> Promise<void>;             // 02.02  me fuction eken enne Promise axois object ekk
+    handleUpdateState : (book :Book)=> void;               // 02.03.03 update una book eka parent component ekata aran yano
 }
 
 
-export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
+export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handleUpdateState}: BookPops) => {
     
-
     const [book , setBook] = useState<Book>(
         {
          bookId: "",
@@ -38,7 +38,10 @@ export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
          edition: "",
          price: 0,
          totalQty: 0,
-         avilableQty: 0}
+         avilableQty: 0,
+         lastUpdatedDate : "",
+         lastUpdatedTime :""
+        }
     );
 
     // BookEdit component load weddi eka ethulata select krapu book eka load kragatta , state eka change krala
@@ -58,6 +61,15 @@ export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
         setBook({...book , [e.target.name] : [e.target.value]});           // 02.02.01 [e.target.name] : [e.target.value] meken change wena input field eka catch karagnno
     }
 
+    const handleUpdate = async() => {           // 02.03.02 (async fuction ekk async fuction ekakinma call krann one)
+        try {
+            await updateBooks(book); 
+            // handleUpdateState(book);            // Parent Componenta eka update krann use karai
+            // handleClose();
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     const handleClose = ()=> {      // 03.01 . Parent Component eke handleOnClose() ekata call kranwa
         handleOnClose();
@@ -70,7 +82,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
             centered>
 
             <Modal.Header closeButton>
-                <Modal.Title>Update Book </Modal.Title>
+                <Modal.Title> Update Book </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
@@ -205,13 +217,12 @@ export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}> Close </Button>
-                <Button variant="primary"> Save </Button>
+                <Button variant="danger" onClick={handleClose}> Close </Button>
+
+                {/* 02.03.01 */}
+                <Button variant="success" onClick={handleUpdate}> Update </Button>            
             </Modal.Footer>
         </Modal>
     );
 }
 
-function UpdateBook() {
-    throw new Error("Function not implemented.");
-}

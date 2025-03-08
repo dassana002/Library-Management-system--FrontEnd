@@ -97,7 +97,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
                         <Form.Control
                             type="textl"
                             placeholder="name@example.com" 
-                            name="Title"
+                            name="title"
                             value={book.title}                  // 02.01.03
                             onChange={handleOnChange}           // 02.02.01
                             />
@@ -110,7 +110,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
                         <Form.Control
                             type="text"
                             placeholder="Password" 
-                            name="Publisher"
+                            name="publisher"
                             value={book.publisher}              // 02.01.03
                             onChange={handleOnChange}           // 02.02.01
                             />
@@ -139,7 +139,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
                         <Form.Control
                             type="text"
                             placeholder="Password" 
-                            name="Author"
+                            name="author"
                             value={book.author}                 // 02.01.03
                             onChange={handleOnChange}           // 02.02.01
                             />
@@ -153,7 +153,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
                         <Form.Control
                             type="text"
                             placeholder="Password" 
-                            name="Edition"
+                            name="edition"
                             value={book.edition}                // 02.01.03
                             onChange={handleOnChange}           // 02.02.01
                             />
@@ -167,7 +167,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
                         <Form.Control
                             type="nuber"
                             placeholder="Password" 
-                            name="Price"
+                            name="price"
                             value={book.price}                  // 02.01.03
                             onChange={handleOnChange}           // 02.02.01
                             />
@@ -181,7 +181,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
                         <Form.Control
                             type="nuber"
                             placeholder="Password" 
-                            name="Total Qty"
+                            name="totalQty"
                             value={book.totalQty}               // 02.01.03
                             onChange={handleOnChange}           // 02.02.01
                             />
@@ -195,7 +195,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose}: BookPops) => {
                         <Form.Control
                             type="nuber"
                             placeholder="Password" 
-                            name="Avl Qty"
+                            name="avilableQty"
                             value={book.avilableQty}            // 02.01.03
                             onChange={handleOnChange}           // 02.02.01
                             />

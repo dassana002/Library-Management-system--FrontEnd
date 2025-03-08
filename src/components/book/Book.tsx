@@ -25,7 +25,7 @@ export const Book = () => {
         bookId: string;
         title: string;
         publisher: string;
-        isbn: string;
+        ISBN: string;
         author: string;
         edition: string;
         price: number;

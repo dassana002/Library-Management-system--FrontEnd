@@ -8,7 +8,7 @@ interface Book {
     bookId: string;
     title: string;
     publisher: string;
-    isbn: string;
+    ISBN: string;
     author: string;
     edition: string;
     price: number;
@@ -32,7 +32,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
         bookId : "",
         title: "",
         publisher: "",
-        isbn: "",
+        ISBN: "",
         author: "",
         edition: "",
         price: 0,
@@ -71,7 +71,11 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                     >
                         <Form.Control
                             type="text"
-                            placeholder="name@example.com" />
+                            placeholder="name@example.com" 
+                            name = "bookId"
+                            value={book.bookId}
+                            readOnly           //Form eke TestField walata select krapu row eke id eka add kranwa saha readOnly kranwa
+                            />
                     </FloatingLabel>
 
                     <FloatingLabel
@@ -80,7 +84,10 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                     >
                         <Form.Control
                             type="textl"
-                            placeholder="name@example.com" />
+                            placeholder="name@example.com" 
+                            name="Title"
+                            value={book.title}
+                            />
                     </FloatingLabel>
 
                     <FloatingLabel
@@ -89,7 +96,10 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                     >
                         <Form.Control
                             type="text"
-                            placeholder="Password" />
+                            placeholder="Password" 
+                            name="Publisher"
+                            value={book.publisher}
+                            />
                     </FloatingLabel>
 
                     <FloatingLabel
@@ -99,7 +109,10 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
 
                         <Form.Control
                             type="text"
-                            placeholder="Password" />
+                            placeholder="Password" 
+                            name="ISBN"
+                            value={book.ISBN}
+                            />
                     </FloatingLabel>
 
 
@@ -110,7 +123,10 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
 
                         <Form.Control
                             type="text"
-                            placeholder="Password" />
+                            placeholder="Password" 
+                            name="Author"
+                            value={book.author}
+                            />
                     </FloatingLabel>
 
                     <FloatingLabel
@@ -120,7 +136,10 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
 
                         <Form.Control
                             type="text"
-                            placeholder="Password" />
+                            placeholder="Password" 
+                            name="Edition"
+                            value={book.edition}
+                            />
                     </FloatingLabel>
 
                     <FloatingLabel
@@ -130,7 +149,10 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
 
                         <Form.Control
                             type="nuber"
-                            placeholder="Password" />
+                            placeholder="Password" 
+                            name="Price"
+                            value={book.price}
+                            />
                     </FloatingLabel>
 
                     <FloatingLabel
@@ -140,7 +162,10 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
 
                         <Form.Control
                             type="nuber"
-                            placeholder="Password" />
+                            placeholder="Password" 
+                            name="Total Qty"
+                            value={book.totalQty}
+                            />
                     </FloatingLabel>
 
                     <FloatingLabel
@@ -150,7 +175,10 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
 
                         <Form.Control
                             type="number"
-                            placeholder="Password" />
+                            placeholder="Password" 
+                            name="Avl Qty"
+                            value={book.availableQty}
+                            />
                     </FloatingLabel>
 
                 </Form>

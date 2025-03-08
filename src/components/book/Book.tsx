@@ -30,7 +30,7 @@ export const Book = () => {
         edition: string;
         price: number;
         totalQty: number;
-        availableQty: number; 
+        avilableQty: number; 
         lastUpdatedDate: string; 
         lastUpdatedTime: string; 
     }

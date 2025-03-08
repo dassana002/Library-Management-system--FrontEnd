@@ -13,7 +13,7 @@ interface Book {
     edition: string;
     price: number;
     totalQty: number;
-    availableQty: number;
+    avilableQty: number;
     // lastUpdatedDate: string;
     // lastUpdatedTime: string;
 }
@@ -37,7 +37,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
         edition: "",
         price: 0,
         totalQty: 0,
-        availableQty: 0
+        avilableQty: 0
         }
     );
 
@@ -190,7 +190,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                             type="nuber"
                             placeholder="Password" 
                             name="Avl Qty"
-                            value={book.availableQty}
+                            value={book.avilableQty}
                             onChange={handleOnChange}
                             />
                     </FloatingLabel>

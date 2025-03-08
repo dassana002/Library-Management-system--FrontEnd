@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import Form from "react-bootstrap/esm/Form";
@@ -51,6 +51,12 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
         handleOnClose();
     }
 
+    
+    // grab the form input changes
+    const handleOnChange = (e :React.ChangeEvent<HTMLInputElement>)=> {
+        setBook({...book,[e.target.name] : e.target.value});
+    }
+
     return (
         <Modal
             show={show}
@@ -58,7 +64,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
             centered>
 
             <Modal.Header closeButton>
-                <Modal.Title>Modal title</Modal.Title>
+                <Modal.Title>Update Book </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
@@ -87,6 +93,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                             placeholder="name@example.com" 
                             name="Title"
                             value={book.title}
+                            onChange={handleOnChange}
                             />
                     </FloatingLabel>
 
@@ -99,6 +106,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                             placeholder="Password" 
                             name="Publisher"
                             value={book.publisher}
+                            onChange={handleOnChange}
                             />
                     </FloatingLabel>
 
@@ -112,6 +120,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                             placeholder="Password" 
                             name="ISBN"
                             value={book.ISBN}
+                            onChange={handleOnChange}
                             />
                     </FloatingLabel>
 
@@ -126,6 +135,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                             placeholder="Password" 
                             name="Author"
                             value={book.author}
+                            onChange={handleOnChange}
                             />
                     </FloatingLabel>
 
@@ -139,6 +149,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                             placeholder="Password" 
                             name="Edition"
                             value={book.edition}
+                            onChange={handleOnChange}
                             />
                     </FloatingLabel>
 
@@ -152,6 +163,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                             placeholder="Password" 
                             name="Price"
                             value={book.price}
+                            onChange={handleOnChange}
                             />
                     </FloatingLabel>
 
@@ -165,6 +177,7 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                             placeholder="Password" 
                             name="Total Qty"
                             value={book.totalQty}
+                            onChange={handleOnChange}
                             />
                     </FloatingLabel>
 
@@ -174,10 +187,11 @@ export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
                     >
 
                         <Form.Control
-                            type="number"
+                            type="nuber"
                             placeholder="Password" 
                             name="Avl Qty"
                             value={book.availableQty}
+                            onChange={handleOnChange}
                             />
                     </FloatingLabel>
 

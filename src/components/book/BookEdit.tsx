@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import Form from "react-bootstrap/esm/Form";
@@ -25,8 +26,28 @@ interface BookPops {
 
 export const BookEdit = ({ show, selectedRow, handleOnClose }: BookPops) => {
 
-    
-    const handleClose = () => {      // 01 . Parent Component eke handleOnClose() ekata call kranwa
+    const [book , setBook] = useState<Book>(
+        
+        {
+        bookId : "",
+        title: "",
+        publisher: "",
+        isbn: "",
+        author: "",
+        edition: "",
+        price: 0,
+        totalQty: 0,
+        availableQty: 0
+        }
+    );
+
+    useEffect(()=> {
+        if (selectedRow) {
+            setBook({...selectedRow});    //  spread operator {...selectedRow} , which creates a shallow copy of the selectedRow object.
+        }
+    },[selectedRow]);               // selected Row eka change unot UseEffect() method eka run wela state eka change weno
+
+    const handleClose = ()=> {      // 01 . Parent Component eke handleOnClose() ekata call kranwa
         handleOnClose();
     }
 

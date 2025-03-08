@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
-import { DeleteBook, GetBooks } from "../../service/Book";
+import { DeleteBook, GetBooks, UpdateBook } from "../../service/Book";
 import Button from "react-bootstrap/esm/Button";
 import { BookEdit } from "./BookEdit";
 
@@ -25,7 +25,7 @@ export const Book = () => {
         bookId: string;
         title: string;
         publisher: string;
-        ISBN: string;
+        isbn: string;
         author: string;
         edition: string;
         price: number;
@@ -71,6 +71,10 @@ export const Book = () => {
     const handleOnClose = ()=> {
         setShowEditForm(false);
     }
+
+    // const updateBooks = ()=> {  // BookEdit form eke changers Book Component ekata update kranwa
+
+    // }
 
     return (
 
@@ -119,6 +123,7 @@ export const Book = () => {
                 show = {showEditForm} 
                 selectedRow = {selectedRow}
                 handleOnClose = {handleOnClose}
+                // updateBooks = {updateBooks}
             />        
         </div>
     );

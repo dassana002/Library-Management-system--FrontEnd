@@ -19,10 +19,9 @@ export const DeleteBook = async(bookId :string) => {
     }
 }
 
-export const UpdateBook = async(bookId :string) => {
+export const UpdateBook = async(book :any) => {
     try {
-        const responce = await axios.put(`${baseUrl}/${bookId}`);
-        return responce.data;
+        await axios.patch(`${baseUrl} ?bookId=${book.bookId}`, book);
     } catch (err) {
         console.error(err);
     }

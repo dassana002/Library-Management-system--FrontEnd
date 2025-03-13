@@ -16,7 +16,9 @@ export const Member = ()=> {
             <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
                 <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
                     <tr>
-                        
+                        {tHeadings.map((headings)=>(
+                            <th>{headings}</th>    
+                        ))}
                     </tr>
                 </thead>
                 <tbody>

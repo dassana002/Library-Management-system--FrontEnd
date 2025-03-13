@@ -42,6 +42,15 @@ export const Member = ()=> {
                     </tr>
                 </thead>
                 <tbody>
+                    {members.map((row)=>(
+                        <tr key={row.memberId}>
+                            {Object.values(row).map((cell , index)=>(
+                                <td key={index}>
+                                    {cell}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
                     
                 </tbody>
     

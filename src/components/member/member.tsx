@@ -21,11 +21,12 @@ export const Member = ()=> {
         memberShipDate :Date;
     }
 
-    const [member , setMember] = useState<Member | null>(null);
+    const [members , setMember] = useState<Member[]>([]);
 
     useEffect(()=> {
         const loadData = async()=> {
             const getAllMembers = await GetAllMembers();
+            setMember(getAllMembers)
         }
         loadData();
     })

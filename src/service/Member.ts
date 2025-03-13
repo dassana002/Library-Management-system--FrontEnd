@@ -10,3 +10,11 @@ export const GetAllMembers = async() => {
         console.log(arr);
     }
 } 
+
+export const DeleteMember = async(memberId :string)=> {
+    try {
+        await axios.delete(`${baseURL}/${memberId}`);
+    } catch (err) {
+        console.log(err);
+    }
+}

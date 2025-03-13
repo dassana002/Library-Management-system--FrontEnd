@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table"
-import { GetAllMembers } from "../../service/Member";
+import { DeleteMember, GetAllMembers } from "../../service/Member";
 import Button from "react-bootstrap/esm/Button";
 
 export const Member = ()=> {
@@ -33,8 +33,17 @@ export const Member = ()=> {
         loadData();
     })
 
-    const handleDelete = ()=> {
-        console.log("Delete fuction design");
+    const handleDelete = async(memberId :string)=> {
+        try {
+            await DeleteMember(memberId);
+            setMember(members.filter(
+                (member)=>(
+                    member.memberId !== memberId
+                )
+            ));
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     const handleEdit = ()=> {
@@ -63,7 +72,10 @@ export const Member = ()=> {
                             ))}
 
                             <Button variant="outline-secondary" onClick={handleEdit}> Edit </Button>
-                            <Button variant="outline-danger" onDoubleClick={handleDelete}> Delete </Button>
+                            <Button variant="outline-danger" 
+                                onClick={
+                                    ()=> handleDelete(row.memberId)
+                                }> Delete </Button>
                         </tr>
                     ))}
                 </tbody>

@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table"
+import { GetAllMembers } from "../../service/Member";
 
 export const Member = ()=> {
 
@@ -10,6 +12,23 @@ export const Member = ()=> {
         "memberShipDate",
         "Options"
     ];
+
+    interface Member {
+        memberId :string;
+        firstname :string;
+        lastname :string;
+        email :string;
+        memberShipDate :Date;
+    }
+
+    const [member , setMember] = useState<Member | null>(null);
+
+    useEffect(()=> {
+        const loadData = async()=> {
+            const getAllMembers = await GetAllMembers();
+        }
+        loadData();
+    })
 
     return(
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>

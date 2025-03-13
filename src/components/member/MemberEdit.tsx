@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import Form from "react-bootstrap/esm/Form";
@@ -8,7 +9,6 @@ interface Member {
     firstname: string;
     lastname: string;
     email: string;
-    memberShipDate: Date;
 }
 interface MemberPops {
     show: boolean;
@@ -17,6 +17,19 @@ interface MemberPops {
 }
 
 export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => {
+
+    const [member , setMember] = useState({
+        memberId :" ",
+        firstname :" ",
+        lastname :" ",
+        email :" "
+    });
+
+    useEffect(()=>{
+        if (selectedRow !== null) {
+            setMember({...selectedRow});
+        }
+    },[selectedRow])
 
     const handleClose = () => {
         handleOnClose();
@@ -61,7 +74,7 @@ export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => 
 
                         <FloatingLabel
                             controlId="floatingPassword"
-                            label="Email Address"
+                            label="Email"
                         >
 
                         <Form.Control

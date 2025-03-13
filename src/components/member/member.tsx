@@ -21,7 +21,6 @@ export const Member = ()=> {
         firstname :string;
         lastname :string;
         email :string;
-        memberShipDate :Date;
     }
 
     const [members , setMember] = useState<Member[]>([]);

@@ -1,4 +1,6 @@
 import Button from "react-bootstrap/esm/Button";
+import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
+import Form from "react-bootstrap/esm/Form";
 import Modal from "react-bootstrap/esm/Modal";
 
 interface Member {
@@ -10,13 +12,13 @@ interface Member {
 }
 interface MemberPops {
     show: boolean;
-    selectedRow : Member | null;
-    handleOnClose :()=> void;
+    selectedRow: Member | null;
+    handleOnClose: () => void;
 }
 
 export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => {
 
-    const handleClose = ()=> {
+    const handleClose = () => {
         handleOnClose();
     }
 
@@ -25,11 +27,48 @@ export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => 
             <Modal
                 show={show}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <Modal.Title>Member Edit Form</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                    <p>Modal body text goes here.</p>
+                    <Form>
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="Member Id"
+                        >
+                            <Form.Control
+                                type="text"
+                                placeholder="name@example.com" />
+                        </FloatingLabel>
+
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="First Name"
+                        >
+                            <Form.Control
+                                type="textl"
+                                placeholder="name@example.com" />
+                        </FloatingLabel>
+
+                        <FloatingLabel
+                            controlId="floatingPassword"
+                            label="Last Name"
+                        >
+                            <Form.Control
+                                type="text"
+                                placeholder="Password" />
+                        </FloatingLabel>
+
+                        <FloatingLabel
+                            controlId="floatingPassword"
+                            label="Email Address"
+                        >
+
+                        <Form.Control
+                                type="text"
+                                placeholder="Password" />
+                        </FloatingLabel>
+                    </Form>
                 </Modal.Body>
 
                 <Modal.Footer>

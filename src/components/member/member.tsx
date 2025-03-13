@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table"
 import { GetAllMembers } from "../../service/Member";
+import Button from "react-bootstrap/esm/Button";
 
 export const Member = ()=> {
 
     const tHeadings :string[] = [
-        "memberId",
-        "firstname",
-        "lastname",
-        "email",
-        "memberShipDate",
+        "#",
+        "MemberId",
+        "Firstname",
+        "Lastname",
+        "Email",
+        "MemberShipDate",
         "Options"
     ];
 
@@ -36,22 +38,26 @@ export const Member = ()=> {
             <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
                 <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
                     <tr>
-                        {tHeadings.map((headings)=>(
-                            <th>{headings}</th>    
+                        {tHeadings.map((headings,index)=>(
+                            <th key={index} scope="col">{headings}</th>    
                         ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {members.map((row)=>(
+                    {members.map((row,rowIndex)=>(
                         <tr key={row.memberId}>
-                            {Object.values(row).map((cell , index)=>(
+                            <th scope="row">{rowIndex + 1}</th>
+
+                            {Object.values(row).map((cell,index)=>(
                                 <td key={index}>
                                     {cell}
                                 </td>
                             ))}
+
+                            <Button variant="outline-secondary" > Edit </Button>
+                            <Button variant="outline-danger" > Delete </Button>
                         </tr>
                     ))}
-                    
                 </tbody>
     
                 <tfoot style={{ position: "sticky", bottom: 0, background: "#fff", zIndex: 2 }}>

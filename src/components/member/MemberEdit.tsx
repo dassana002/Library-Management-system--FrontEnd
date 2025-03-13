@@ -31,6 +31,10 @@ export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => 
         }
     },[selectedRow])
 
+    const handleOnChange = (e :React.ChangeEvent<HTMLInputElement>)=> {
+        setMember({...member, [e.target.name]:[e.target.value]});
+    }
+
     const handleClose = () => {
         handleOnClose();
     }
@@ -40,7 +44,7 @@ export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => 
             <Modal
                 show={show}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Member Edit Form</Modal.Title>
+                    <Modal.Title> Member Edit Form </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -50,8 +54,10 @@ export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => 
                             label="Member Id"
                         >
                             <Form.Control
-                                type="text"
-                                placeholder="name@example.com" />
+                                name="memberId"
+                                value={member.memberId}    
+                                onChange={handleOnChange}
+                            />
                         </FloatingLabel>
 
                         <FloatingLabel
@@ -59,8 +65,10 @@ export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => 
                             label="First Name"
                         >
                             <Form.Control
-                                type="textl"
-                                placeholder="name@example.com" />
+                                name="firstname"
+                                value={member.firstname}
+                                onChange={handleOnChange} 
+                            />
                         </FloatingLabel>
 
                         <FloatingLabel
@@ -68,8 +76,10 @@ export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => 
                             label="Last Name"
                         >
                             <Form.Control
-                                type="text"
-                                placeholder="Password" />
+                                name="lastname"
+                                value={member.lastname}
+                                onChange={handleOnChange}     
+                            />
                         </FloatingLabel>
 
                         <FloatingLabel
@@ -77,9 +87,11 @@ export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => 
                             label="Email"
                         >
 
-                        <Form.Control
-                                type="text"
-                                placeholder="Password" />
+                        <Form.Control 
+                            name="email"
+                            value={member.email}
+                            onChange={handleOnChange} 
+                        />
                         </FloatingLabel>
                     </Form>
                 </Modal.Body>

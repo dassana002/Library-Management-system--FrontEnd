@@ -10,11 +10,16 @@ interface Member {
 }
 interface MemberPops {
     show: boolean;
-    selectedRow: Member | null;
+    selectedRow : Member | null;
+    handleOnClose :()=> void;
 }
 
-export const MemberEdit = ({ show, selectedRow }: MemberPops) => {
-    console.log(selectedRow);
+export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => {
+
+    const handleClose = ()=> {
+        handleOnClose();
+    }
+
     return (
         <div>
             <Modal
@@ -28,7 +33,9 @@ export const MemberEdit = ({ show, selectedRow }: MemberPops) => {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="secondary">Close</Button>
+                    <Button variant="secondary"
+                        onClick={handleClose}
+                    >Close</Button>
                     <Button variant="primary">Save changes</Button>
                 </Modal.Footer>
             </Modal>

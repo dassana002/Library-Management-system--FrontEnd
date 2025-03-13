@@ -54,6 +54,10 @@ export const Member = ()=> {
         setSelectedRow(row);
     }
 
+    const handleOnClose = ()=> {
+        setShowEditForm(false);
+    } 
+
     return(
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
             <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
@@ -74,15 +78,19 @@ export const Member = ()=> {
                                     {cell}
                                 </td>
                             ))}
-
-                            <Button variant="outline-secondary" 
-                                onClick={
-                                    ()=> handleEdit(row)
-                                }> Edit </Button>
-                            <Button variant="outline-danger" 
-                                onClick={
-                                    ()=> handleDelete(row.memberId)
-                                }> Delete </Button>
+                            
+                            <th>
+                                <Button variant="outline-secondary" 
+                                    onClick={
+                                        ()=> handleEdit(row)
+                                    }
+                                > Edit </Button>
+                                <Button variant="outline-danger" 
+                                    onClick={
+                                        ()=> handleDelete(row.memberId)
+                                    }
+                                > Delete </Button>
+                            </th>
                         </tr>
                     ))}
                 </tbody>
@@ -98,6 +106,7 @@ export const Member = ()=> {
             <MemberEdit
                 show = {showEditForm}
                 selectedRow = {selectedRow}
+                handleOnClose = {handleOnClose}
             />
         </div>    
     );

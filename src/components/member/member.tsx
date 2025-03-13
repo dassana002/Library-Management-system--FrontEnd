@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table"
-import { DeleteMember, GetAllMembers } from "../../service/Member";
+import { DeleteMember, GetAllMembers, UpdateMember } from "../../service/Member";
 import Button from "react-bootstrap/esm/Button";
 import { MemberEdit } from "./MemberEdit";
 
@@ -39,18 +39,25 @@ export const Member = ()=> {
         try {
             await DeleteMember(memberId);
             setMember(members.filter(
-                (member)=>(
-                    member.memberId !== memberId
+                (members)=>(
+                    members.memberId !== memberId
                 )
             ));
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
     const handleEdit = (row :Member)=> {
         setShowEditForm(true);
         setSelectedRow(row);
+    }
+
+    const handleUpdateState = (updateMember :Member)=> {
+        const updateMembers = members.map((member)=>
+            member.memberId === updateMember.memberId ? updateMember : member
+        )
+        setMember(updateMembers);
     }
 
     const handleOnClose = ()=> {
@@ -106,6 +113,8 @@ export const Member = ()=> {
                 show = {showEditForm}
                 selectedRow = {selectedRow}
                 handleOnClose = {handleOnClose}
+                updateMember={UpdateMember}
+                handleUpdateState={handleUpdateState}
             />
         </div>    
     );

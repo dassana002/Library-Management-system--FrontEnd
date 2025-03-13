@@ -11,12 +11,14 @@ interface Member {
     email: string;
 }
 interface MemberPops {
-    show: boolean;
-    selectedRow: Member | null;
-    handleOnClose: () => void;
+    show :boolean;
+    selectedRow :Member | null;
+    handleOnClose :() => void;
+    updateMember :(member :Member)=> Promise<void>;
+    handleUpdateState :(member :Member)=> void;
 }
 
-export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => {
+export const MemberEdit = ({ show, selectedRow, handleOnClose ,updateMember ,handleUpdateState }: MemberPops) => {
 
     const [member , setMember] = useState({
         memberId :" ",
@@ -34,6 +36,16 @@ export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => 
     const handleOnChange = (e :React.ChangeEvent<HTMLInputElement>)=> {
         setMember({...member, [e.target.name]:[e.target.value]});
     }
+
+    const handleUpdate = async()=> {
+        try {
+            await updateMember(member);
+            handleUpdateState(member);
+            handleClose();
+        } catch (err) {
+            console.error(err);
+        }
+    } 
 
     const handleClose = () => {
         handleOnClose();
@@ -57,6 +69,7 @@ export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => 
                                 name="memberId"
                                 value={member.memberId}    
                                 onChange={handleOnChange}
+                                readOnly
                             />
                         </FloatingLabel>
 
@@ -100,7 +113,9 @@ export const MemberEdit = ({ show, selectedRow, handleOnClose }: MemberPops) => 
                     <Button variant="secondary"
                         onClick={handleClose}
                     >Close</Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant="primary"
+                        onClick={handleUpdate}
+                    >Update</Button>
                 </Modal.Footer>
             </Modal>
         </div>

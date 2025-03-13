@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table"
 import { DeleteMember, GetAllMembers } from "../../service/Member";
 import Button from "react-bootstrap/esm/Button";
+import { MemberEdit } from "./MemberEdit";
 
 export const Member = ()=> {
 
@@ -24,6 +25,7 @@ export const Member = ()=> {
     }
 
     const [members , setMember] = useState<Member[]>([]);
+    const [showEditForm , setShowEditForm] = useState(false);
 
     useEffect(()=> {
         const loadData = async()=> {
@@ -47,7 +49,7 @@ export const Member = ()=> {
     }
 
     const handleEdit = ()=> {
-        console.log("Update fuction design");
+        setShowEditForm(true);
     }
 
     return(
@@ -71,7 +73,9 @@ export const Member = ()=> {
                                 </td>
                             ))}
 
-                            <Button variant="outline-secondary" onClick={handleEdit}> Edit </Button>
+                            <Button variant="outline-secondary" 
+                                onClick={handleEdit
+                                }> Edit </Button>
                             <Button variant="outline-danger" 
                                 onClick={
                                     ()=> handleDelete(row.memberId)
@@ -87,6 +91,10 @@ export const Member = ()=> {
                     </tr>
                 </tfoot>
             </Table>
+
+            <MemberEdit
+                show = {showEditForm}
+            />
         </div>    
     );
 }

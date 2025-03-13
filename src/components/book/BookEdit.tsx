@@ -14,33 +14,32 @@ interface Book {
     price: number;
     totalQty: number;
     avilableQty: number;
-    lastUpdatedDate: string;
-    lastUpdatedTime: string;
 }
 interface BookPops {
     show : boolean;
     selectedRow : Book | null;
-    handleOnClose : ()=> void;                             // 03.02. Book component eken handleOnClose() fuction eka pass kragatta  , JS wala puluwan functions pass kranna
-    updateBooks : (book :Book)=> Promise<void>;             // 02.02  me fuction eken enne Promise axois object ekk
-    handleUpdateState : (book :Book)=> void;               // 02.03.03 update una book eka parent component ekata aran yano
+    handleOnClose : ()=> void;                                  // 03.02. Book component eken handleOnClose() fuction eka pass kragatta  , JS wala puluwan functions pass kranna
+    updateBooks : (book :Book)=> Promise<void>;                 // 02.02  me fuction eken enne Promise axois object ekk
+    handleUpdateState : (book :Book)=> void;                    // 02.03.03 update una book eka parent component ekata aran yano
 }
 
 
-export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handleUpdateState}: BookPops) => {
-    
+export const BookEdit = ({ show, selectedRow , handleOnClose ,updateBooks ,handleUpdateState}: BookPops) => {
+
+    // Component ekata data awata ,
+    // Component eke State ekata Book Data ewith na,
+    // eka nisa State ekk handle kragann one 
     const [book , setBook] = useState<Book>(
         {
-         bookId: "",
-         title: "",
-         publisher: "",
-         isbn: "",
-         author: "",
-         edition: "",
-         price: 0,
-         totalQty: 0,
-         avilableQty: 0,
-         lastUpdatedDate : "",
-         lastUpdatedTime :""
+         bookId : " ",
+         title : " ",
+         publisher : " ",
+         isbn : " ",
+         author : " ",
+         edition : " ",
+         price : 0,
+         totalQty : 0,
+         avilableQty : 0
         }
     );
 
@@ -48,15 +47,16 @@ export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handle
     // select krapu book eka Load wenn one BookEdit component eka Mount wela time ekedi
     useEffect(()=> {
         if (selectedRow !== null) {
-            setBook({...selectedRow});    // 02.01.02 spread operator {...selectedRow} , which creates a shallow copy of the selectedRow object.(row eke tiyeno okkoma data gann puluwan (...) operetor eken)
+            setBook({...selectedRow});      // 02.01.02 Spread operator {...selectedRow} , which creates a shallow copy of the selectedRow object.(row eke tiyeno okkoma data gann puluwan (...) operetor eken)
         }
-    },[selectedRow]);               // 02.01.01 selected Row eka change unot UseEffect() method eka run wela state eka change weno
+    },[selectedRow]);                       // 02.01.01 Book Component eken selectedRow ekak awoth withark,
+                                            //  UseEffect() method eka run wela state eka change weno
 
 
-    // Input Field wala changes handle krann apita fuction ekk one (OnChange event ekk handle kragnn)
+    // 02.02.01                                        
+    // Input Field wala changes handle krann apita fuction ekk one (OnChangeEvent ekk handle kragnn)
     // Change eka catch kragena e OnChange event eken apu values state ekat dala update krann one (ethakota tmi api type kraddi display wenne) 
     // grab the form input changes
-    // 02.02
     const handleOnChange = (e :React.ChangeEvent<HTMLInputElement>)=> {    // e walin pennanne ,HTMl input element ekaka tiyena change ekk (Only Type script)
         setBook({...book , [e.target.name] : [e.target.value]});           // 02.02.01 [e.target.name] : [e.target.value] meken change wena input field eka catch karagnno
     }
@@ -64,14 +64,14 @@ export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handle
     const handleUpdate = async() => {           // 02.03.02 (async fuction ekk async fuction ekakinma call krann one)
         try {
             await updateBooks(book); 
-            // handleUpdateState(book);            // Parent Componenta eka update krann use karai
-            // handleClose();
+            handleUpdateState(book);            // Parent Component eka update krann use karai
+            handleClose();
         } catch (err) {
             console.error(err);
         }
     }
 
-    const handleClose = ()=> {      // 03.01 . Parent Component eke handleOnClose() ekata call kranwa
+    const handleClose = ()=> {      // 03.01 . Parent Component eke handleOnClose() ekata call kranwa ,( Direct Call karannath puluwan )
         handleOnClose();
     }
 
@@ -96,8 +96,8 @@ export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handle
                         <Form.Control
                             type="text"
                             placeholder="name@example.com" 
-                            name = "bookId" 
-                            value={book.bookId}                 // 02.01.03 Form eke Input Field eka ethulata Book Component eken apu bookID eka add kra
+                            name = "bookId"                     // 02.01.03 select krapu row eke name eka input field ekata add kra
+                            value={book.bookId}                 // 02.01.03 select krapu row eke value eka input field ekata add kra
                             readOnly                            // Form eke Input Field walata select krapu row eke id eka add kranwa saha readOnly kranwa
                             />
                     </FloatingLabel>
@@ -110,8 +110,8 @@ export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handle
                             type="textl"
                             placeholder="name@example.com" 
                             name="title"
-                            value={book.title}                  // 02.01.03
-                            onChange={handleOnChange}           // 02.02.01
+                            value={book.title}                  
+                            onChange={handleOnChange}           // 02.02
                             />
                     </FloatingLabel>
 
@@ -123,8 +123,8 @@ export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handle
                             type="text"
                             placeholder="Password" 
                             name="publisher"
-                            value={book.publisher}              // 02.01.03
-                            onChange={handleOnChange}           // 02.02.01
+                            value={book.publisher}              
+                            onChange={handleOnChange}           
                             />
                     </FloatingLabel>
 
@@ -137,8 +137,8 @@ export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handle
                             type="text"
                             placeholder="Password" 
                             name="isbn"
-                            value={book.isbn}                   // 02.01.03
-                            onChange={handleOnChange}           // 02.02.01
+                            value={book.isbn}                   
+                            onChange={handleOnChange}           
                             />
                     </FloatingLabel>
 
@@ -152,8 +152,8 @@ export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handle
                             type="text"
                             placeholder="Password" 
                             name="author"
-                            value={book.author}                 // 02.01.03
-                            onChange={handleOnChange}           // 02.02.01
+                            value={book.author}                 
+                            onChange={handleOnChange}           
                             />
                     </FloatingLabel>
 
@@ -166,8 +166,8 @@ export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handle
                             type="text"
                             placeholder="Password" 
                             name="edition"
-                            value={book.edition}                // 02.01.03
-                            onChange={handleOnChange}           // 02.02.01
+                            value={book.edition}                
+                            onChange={handleOnChange}           
                             />
                     </FloatingLabel>
 
@@ -180,8 +180,8 @@ export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handle
                             type="nuber"
                             placeholder="Password" 
                             name="price"
-                            value={book.price}                  // 02.01.03
-                            onChange={handleOnChange}           // 02.02.01
+                            value={book.price}                  
+                            onChange={handleOnChange}           
                             />
                     </FloatingLabel>
 
@@ -194,8 +194,8 @@ export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handle
                             type="nuber"
                             placeholder="Password" 
                             name="totalQty"
-                            value={book.totalQty}               // 02.01.03
-                            onChange={handleOnChange}           // 02.02.01
+                            value={book.totalQty}               
+                            onChange={handleOnChange}           
                             />
                     </FloatingLabel>
 
@@ -208,8 +208,8 @@ export const BookEdit = ({ show, selectedRow, handleOnClose ,updateBooks ,handle
                             type="nuber"
                             placeholder="Password" 
                             name="avilableQty"
-                            value={book.avilableQty}            // 02.01.03
-                            onChange={handleOnChange}           // 02.02.01
+                            value={book.avilableQty}            
+                            onChange={handleOnChange}           
                             />
                     </FloatingLabel>
 

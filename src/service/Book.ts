@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = "http://localhost:2222/librarySoftware/api/v1/book";
+const baseUrl = "http://localhost:1111/librarySoftware/api/v1/book";
 
 export const GetBooks = async() => {
     try {
@@ -18,13 +18,11 @@ export const DeleteBook = async(bookId :string) => {
         console.error(err);
     }
 }
-
-export const UpdateBooks = async(book :any) => {
+export const UpdateBooks = async(book: any) => {
     try {
-        await axios.patch(`${baseUrl}?bookId=${book.bookId}`, book);
-        
+        await axios.put(`${baseUrl}/${book.bookId}`,book);
     } catch (err) {
-        console.error(err);
+        console.error("Error updating book:"+ err);
     }
-}
+};
 

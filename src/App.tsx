@@ -1,4 +1,5 @@
 import { Book } from "./components/book/Book";
+import { Member } from "./components/member/member";
 import { NavBar } from "./components/NavBar";
 
 

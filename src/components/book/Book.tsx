@@ -3,6 +3,7 @@ import Table from "react-bootstrap/esm/Table";
 import { DeleteBook, GetBooks, UpdateBooks } from "../../service/Book";
 import Button from "react-bootstrap/esm/Button";
 import { BookEdit } from "./BookEdit";
+import { BookDelete } from "./BookDelete";
 
 export const Book = () => {
 
@@ -30,38 +31,49 @@ export const Book = () => {
         edition: string;
         price: number;
         totalQty: number;
-        avilableQty: number; 
-        lastUpdatedDate: string; 
-        lastUpdatedTime: string; 
+        avilableQty: number;
+        
+        // lastUpdatedDate: string; 
+        // lastUpdatedTime: string; 
     }
 
     const [books , setBooks] = useState<Book[]>([]);                    // Table eke books rows wla changers kragann use krai
     const [showEditForm , setShowEditForm] = useState(false);           // Edit Form eka show kranna use krai
+    const [showDeleteForm , setShowDeleteForm] = useState(false);
     const [selectedRow , setSelectRow] = useState<Book | null>(null);   // select krapu row eka Edit form ekata pass kragann use krano
  
-    useEffect(()=> {  // component eka Mount wena time ekedi wenn one wada kragann puluwan UseEffect() method eka use krala
+    useEffect(()=> {                                                    // component eka Mount wena time ekedi wenn one wada kragann puluwan UseEffect() method eka use krala
         const loadData = async() => {
-            const getAllBooks = await GetBooks(); // Books Data Object Array ekk (JSON) BackEnd eken apita enne 
+            const getAllBooks = await GetBooks();                       // Books Data Object Array ekk (JSON) BackEnd eken apita enne 
             setBooks(getAllBooks);   
         }
 
         loadData();
-    },[]);
+    });
 
     
-    const handleOnEdit = async(row :Book)=> {
-        setShowEditForm(true);
-        setSelectRow(row);
+
+    //Update Book
+    const handleOnEdit = (row :Book)=> {
+        setShowEditForm(true);    // Book Component eke State eka Change kranwa (BookEdit Form eka show kranwa)
+        setSelectRow(row);        // Book Component eke idn select karapu row eke data Catch kragannwa                    
     }
 
-    // 02.03.04
-    const handleUpdateState = (updateBook :Book)=> {
-        const updateBooks = books.map((book)=>
-            book.bookId === updateBook.bookId ? updateBook : book
+    
+    const handleUpdateState = (updatedBook :Book)=> {                        // 02.03.04   Update krapu book eka witharak table ekata map kranwa
+        const updatedBooks = books.map((book)=>
+            book.bookId === updatedBook.bookId ? updatedBook : book
         );
 
-        setBooks(updateBooks);
+        setBooks(updatedBooks);
     }
+
+    const handleOnClose = ()=> {
+        setShowEditForm(false);
+    }
+
+
+    //Delete Book
 
     const handleOnDelete = async(bookId :string)=> {
         try {
@@ -77,10 +89,10 @@ export const Book = () => {
         }
     }
 
-    const handleOnClose = ()=> {
-        setShowEditForm(false);
-    }
+    // const bookDelete = ()=> {
+    //     setShowDeleteForm(false);
 
+    // }
 
     return (
 
@@ -108,8 +120,12 @@ export const Book = () => {
                             )}
 
                             <td>
-                                <Button variant="outline-secondary" onDoubleClick={()=> handleOnEdit(row)}> Edit </Button>
-                                <Button variant="outline-danger" onDoubleClick={()=> handleOnDelete(row.bookId)}> Delete </Button>
+                                <Button variant="outline-secondary" 
+                                    onClick={()=> 
+                                        handleOnEdit(row)
+                                    } 
+                                    > Edit </Button>
+                                <Button variant="outline-danger" onClick={()=> handleOnDelete(row.bookId)}> Delete </Button>
                             </td>
                         </tr>
                     ))}
@@ -131,7 +147,12 @@ export const Book = () => {
                 handleOnClose = {handleOnClose}
                 updateBooks = {UpdateBooks}  
                 handleUpdateState = {handleUpdateState}    
-            />        
+            /> 
+
+            <BookDelete
+                // show = {showDeleteForm}
+                // bookDelete = {bookDelete}
+            />       
         </div>
     );
 }

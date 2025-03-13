@@ -26,6 +26,7 @@ export const Member = ()=> {
 
     const [members , setMember] = useState<Member[]>([]);
     const [showEditForm , setShowEditForm] = useState(false);
+    const [selectedRow , setSelectedRow] = useState<Member | null>(null);
 
     useEffect(()=> {
         const loadData = async()=> {
@@ -48,8 +49,9 @@ export const Member = ()=> {
         }
     }
 
-    const handleEdit = ()=> {
+    const handleEdit = (row :Member)=> {
         setShowEditForm(true);
+        setSelectedRow(row);
     }
 
     return(
@@ -74,7 +76,8 @@ export const Member = ()=> {
                             ))}
 
                             <Button variant="outline-secondary" 
-                                onClick={handleEdit
+                                onClick={
+                                    ()=> handleEdit(row)
                                 }> Edit </Button>
                             <Button variant="outline-danger" 
                                 onClick={
@@ -94,6 +97,7 @@ export const Member = ()=> {
 
             <MemberEdit
                 show = {showEditForm}
+                selectedRow = {selectedRow}
             />
         </div>    
     );

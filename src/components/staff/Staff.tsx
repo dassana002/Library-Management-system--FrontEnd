@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
-import { GetAllStaff } from "../../service/Staff";
+import { DeleteStaff, GetAllStaff } from "../../service/Staff";
 import Button from "react-bootstrap/esm/Button";
 
 export const Staff = () => {
@@ -40,9 +40,19 @@ export const Staff = () => {
 
     }
 
-    const handleDelete = () => {
-
+    const handleDelete = async(staffId :string) => {
+        try {
+            await DeleteStaff(staffId);
+            setStaff(
+                staffs.filter((staff)=>
+                    staff.staffId !== staffId
+                )
+            )
+        } catch (err) {
+            console.error(err);
+        }
     }
+
 
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
@@ -69,7 +79,9 @@ export const Staff = () => {
                                     onClick={handleEdit}
                                 > Edit </Button>
                                 <Button variant="outline-danger"
-                                    onClick={handleDelete}
+                                    onClick={
+                                        ()=> handleDelete(row.staffId)
+                                    }
                                 > Delete </Button>
                             </th>
                         </tr>

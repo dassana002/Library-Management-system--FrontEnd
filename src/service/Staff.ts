@@ -10,3 +10,11 @@ export const GetAllStaff = async()=> {
         console.error(err);
     }
 }
+
+export const DeleteStaff = async(staffId :string)=> {
+    try {
+        await axios.delete(`${baseURL}/${staffId}`);
+    } catch (err) {
+        console.error(err);
+    }
+}

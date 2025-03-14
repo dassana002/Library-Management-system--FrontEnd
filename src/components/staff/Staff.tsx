@@ -65,6 +65,9 @@ export const Staff = () => {
         }
     }
 
+    const handleOnClose = ()=> {
+        setShowEditForm(false);
+    } 
 
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
@@ -116,6 +119,7 @@ export const Staff = () => {
                 selectedRow = {selectedRow}
                 update = {UpdateStaff}
                 handelUpdateState = {handelUpdateState}
+                handleOnClose = {handleOnClose}
             />
         </div>
     );

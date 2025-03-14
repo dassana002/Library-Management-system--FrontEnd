@@ -14,11 +14,12 @@ interface Staff {
 interface Pops {
     show: boolean;
     selectedRow: Staff | null;
-    update : (staff :Staff)=> Promise<void>
-    handelUpdateState : (staff :Staff)=> void
+    update : (staff :Staff)=> Promise<void>;
+    handelUpdateState : (staff :Staff)=> void;
+    handleOnClose : ()=> void;
 }
 
-export const StaffEdit = ({ show, selectedRow, update, handelUpdateState}: Pops) => {
+export const StaffEdit = ({ show, selectedRow, update, handelUpdateState, handleOnClose}: Pops) => {
 
     const [staff, setStaff] = useState<Staff>(
         {
@@ -32,18 +33,19 @@ export const StaffEdit = ({ show, selectedRow, update, handelUpdateState}: Pops)
 
     useEffect(() => {
         if (selectedRow !== null) {
-            setStaff(selectedRow);
+            setStaff({...selectedRow});
         }
     }, [selectedRow])
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setStaff({ ...staff, [e.target.name] : [e.target.value] });
+    const handleOnChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setStaff({ ...staff, [e.target.name] : [e.target.value]});
     }
 
     const handleUpdate = async()=> {
         try {
             await update(staff);
             handelUpdateState(staff);
+            handleOnClose();
         } catch (err) {
             console.error(err);
         }
@@ -127,7 +129,9 @@ export const StaffEdit = ({ show, selectedRow, update, handelUpdateState}: Pops)
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="secondary"> Close</Button>
+                    <Button variant="secondary"
+                        onClick={handleOnClose}
+                    > Close</Button>
                     <Button variant="primary"
                         onClick={handleUpdate}
                     > Update</Button>

@@ -44,6 +44,14 @@ export const Staff = () => {
         setSelectedRow(staff);
     }
 
+    const handelUpdateState = (updatestaff :Staff)=> {
+        const updateStaffs = staffs.map((staff)=> 
+            staff.staffId === updatestaff.staffId ? updatestaff : staff   
+        )
+
+        setStaff(updateStaffs);
+    }
+
     const handleDelete = async(staffId :string) => {
         try {
             await DeleteStaff(staffId);
@@ -106,6 +114,8 @@ export const Staff = () => {
             <StaffEdit
                 show = {showEditForm}
                 selectedRow = {selectedRow}
+                update = {UpdateStaff}
+                handelUpdateState = {handelUpdateState}
             />
         </div>
     );

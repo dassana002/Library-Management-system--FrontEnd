@@ -14,9 +14,11 @@ interface Staff {
 interface Pops {
     show: boolean;
     selectedRow: Staff | null;
+    update : (staff :Staff)=> Promise<void>
+    handelUpdateState : (staff :Staff)=> void
 }
 
-export const StaffEdit = ({ show, selectedRow }: Pops) => {
+export const StaffEdit = ({ show, selectedRow, update, handelUpdateState}: Pops) => {
 
     const [staff, setStaff] = useState<Staff>(
         {
@@ -36,6 +38,15 @@ export const StaffEdit = ({ show, selectedRow }: Pops) => {
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setStaff({ ...staff, [e.target.name] : [e.target.value] });
+    }
+
+    const handleUpdate = async()=> {
+        try {
+            await update(staff);
+            handelUpdateState(staff);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     return (
@@ -117,7 +128,9 @@ export const StaffEdit = ({ show, selectedRow }: Pops) => {
 
                 <Modal.Footer>
                     <Button variant="secondary"> Close</Button>
-                    <Button variant="primary"> Update</Button>
+                    <Button variant="primary"
+                        onClick={handleUpdate}
+                    > Update</Button>
                 </Modal.Footer>
             </Modal>
         </div>

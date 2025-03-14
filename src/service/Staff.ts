@@ -18,3 +18,11 @@ export const DeleteStaff = async(staffId :string)=> {
         console.error(err);
     }
 }
+
+export const UpdateStaff = async(staff :any)=> {
+    try {
+        await axios.put(`${baseURL}/${staff.staffId}`,staff);
+    } catch (err) {
+        console.error(err);
+    }
+}

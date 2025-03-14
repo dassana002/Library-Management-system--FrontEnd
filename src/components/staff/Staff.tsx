@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
 import { DeleteStaff, GetAllStaff } from "../../service/Staff";
 import Button from "react-bootstrap/esm/Button";
+import { StaffEdit } from "./StaffEdit";
 
 export const Staff = () => {
 
@@ -26,6 +27,7 @@ export const Staff = () => {
     }
 
     const [staffs, setStaff] = useState<Staff[]>([]);
+    const [showEditForm, setShowEditForm] = useState(false);
 
     useEffect(() => {
         const loadData = async () => {
@@ -36,8 +38,8 @@ export const Staff = () => {
         loadData();
     })
 
-    const handleEdit = () => {
-
+    const handleEdit = (staff :Staff) => {
+        setShowEditForm(true);
     }
 
     const handleDelete = async(staffId :string) => {
@@ -76,7 +78,9 @@ export const Staff = () => {
                             )}
                             <th>
                                 <Button variant="outline-secondary"
-                                    onClick={handleEdit}
+                                    onClick={
+                                        ()=> handleEdit(row)
+                                    }
                                 > Edit </Button>
                                 <Button variant="outline-danger"
                                     onClick={
@@ -96,7 +100,10 @@ export const Staff = () => {
                     </tr>
                 </tfoot>
             </Table>
-
+            
+            <StaffEdit
+                show = {showEditForm}
+            />
         </div>
     );
 }

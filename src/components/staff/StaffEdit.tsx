@@ -1,4 +1,6 @@
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
+import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import Form from "react-bootstrap/esm/Form";
 import Modal from "react-bootstrap/esm/Modal";
 
@@ -10,15 +12,36 @@ interface Staff {
     role: string;
 }
 interface Pops {
-    show :boolean;
-    selectedRow :Staff | null;
+    show: boolean;
+    selectedRow: Staff | null;
 }
 
-export const StaffEdit = ({show, selectedRow} :Pops) => {
+export const StaffEdit = ({ show, selectedRow }: Pops) => {
+
+    const [staff, setStaff] = useState<Staff>(
+        {
+            staffId: " ",
+            firstName: " ",
+            lastName: " ",
+            email: " ",
+            role: " "
+        }
+    );
+
+    useEffect(() => {
+        if (selectedRow !== null) {
+            setStaff(selectedRow);
+        }
+    }, [selectedRow])
+
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setStaff({ ...staff, [e.target.name] : [e.target.value] });
+    }
+
     return (
         <div>
             <Modal
-                show = {show}
+                show={show}
             >
                 <Modal.Header closeButton>
                     <Modal.Title> Staff Edit Form </Modal.Title>
@@ -26,55 +49,74 @@ export const StaffEdit = ({show, selectedRow} :Pops) => {
 
                 <Modal.Body>
                     <Form>
-                        <Form.Group>
-                            <Form.Label> Staff ID</Form.Label>
-                            <Form.Control 
-                                type="test"
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="Staff ID"
+                        >
+                            <Form.Control
+                                type="text"
                                 name="staffId"
-                                value={selectedRow?.staffId}
+                                value={staff.staffId}
+                                readOnly
                             />
-                        </Form.Group>
+                        </FloatingLabel>
 
-                        <Form.Group>
-                            <Form.Label> First Name </Form.Label>
-                            <Form.Control 
-                                type="test"
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="First Name"
+                        >
+                            <Form.Control
+                                type="text"
                                 name="firstName"
-                                value={selectedRow?.firstName}  
+                                value={staff.firstName}
+                                onChange={handleOnChange}
                             />
-                        </Form.Group>
+                        </FloatingLabel>
 
-                        <Form.Group>
-                            <Form.Label> Last Name </Form.Label>
-                            <Form.Control 
-                                type="test"
+                        <FloatingLabel
+                            controlId="floatingPassword"
+                            label="Last Name"
+                        >
+                            <Form.Control
+                                type="text"
                                 name="lastName"
-                                value={selectedRow?.lastName} 
+                                value={staff.lastName}
+                                onChange={handleOnChange}
                             />
-                        </Form.Group>
+                        </FloatingLabel>
 
-                        <Form.Group>
-                            <Form.Label> Email </Form.Label>
-                            <Form.Control 
-                                type="test"  
+                        <FloatingLabel
+                            controlId="floatingPassword"
+                            label="Email"
+                        >
+                            <Form.Control
+                                type="text"
                                 name="email"
-                                value={selectedRow?.email}
+                                value={staff.email}
+                                onChange={handleOnChange}
                             />
-                        </Form.Group>
+                        </FloatingLabel>
 
-                        <Form.Group>
-                            <Form.Label> Role </Form.Label>
-                            <Form.Control 
-                                type="test" 
-                                name="role" 
-                                value={selectedRow?.role}
+
+                        <FloatingLabel
+                            controlId="floatingPassword"
+                            label="Role"
+                        >
+
+                            <Form.Control
+                                type="text"
+                                name="role"
+                                value={staff.role}
+                                onChange={handleOnChange}
                             />
-                        </Form.Group>
+                        </FloatingLabel>
+
+
                     </Form>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="secondary">Close</Button>
+                    <Button variant="secondary"> Close</Button>
                     <Button variant="primary"> Update</Button>
                 </Modal.Footer>
             </Modal>

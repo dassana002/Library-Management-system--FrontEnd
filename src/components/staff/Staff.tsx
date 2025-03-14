@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
-import { DeleteStaff, GetAllStaff } from "../../service/Staff";
+import { DeleteStaff, GetAllStaff, UpdateStaff } from "../../service/Staff";
 import Button from "react-bootstrap/esm/Button";
 import { StaffEdit } from "./StaffEdit";
 

@@ -28,6 +28,7 @@ export const Staff = () => {
 
     const [staffs, setStaff] = useState<Staff[]>([]);
     const [showEditForm, setShowEditForm] = useState(false);
+    const [selectedRow, setSelectedRow] = useState<Staff | null>(null)
 
     useEffect(() => {
         const loadData = async () => {
@@ -40,6 +41,7 @@ export const Staff = () => {
 
     const handleEdit = (staff :Staff) => {
         setShowEditForm(true);
+        setSelectedRow(staff);
     }
 
     const handleDelete = async(staffId :string) => {
@@ -103,6 +105,7 @@ export const Staff = () => {
             
             <StaffEdit
                 show = {showEditForm}
+                selectedRow = {selectedRow}
             />
         </div>
     );

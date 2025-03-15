@@ -10,11 +10,9 @@ interface Lendings {
     lendingId: string;
     book: Books;
     member: Members;
-    lendingDate: string;
-    returnDate?: string;
     isActive: boolean;
-    overDue?: number;
-    fineAmount?: number;
+    overDue: number;
+    fineAmount: number;
 }
 
 export const Lending = () => {
@@ -34,6 +32,7 @@ export const Lending = () => {
 
     const [lendings, setLending] = useState<Lendings[]>([]);
     const [showEditForm, setShowEditForm] = useState(false);
+    const [selectedRow, setSelectedRow]= useState<Lendings | null>(null);
 
     useEffect(() => {
         const loadData = async () => {
@@ -58,6 +57,7 @@ export const Lending = () => {
 
     const handleEdit = (row :Lendings)=> {
         setShowEditForm(true);
+        setSelectedRow(row);
     }
 
     return (
@@ -97,6 +97,7 @@ export const Lending = () => {
 
             <LendingEdit
                 show = {showEditForm}
+                selectedRow = {selectedRow}
             />
         </div>
     );

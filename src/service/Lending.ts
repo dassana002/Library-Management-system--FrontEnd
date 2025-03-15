@@ -11,3 +11,12 @@ export const GetAllLending = async()=> {
         return [];
     }
 }
+
+export const DeleteLending = async(LendingId :string)=> {
+    try {
+        await axios.delete(`${baseURL}/${LendingId}`);
+    } catch (err) {
+        console.error(err)
+        return [];
+    }
+}

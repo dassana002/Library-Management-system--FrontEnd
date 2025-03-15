@@ -2,7 +2,7 @@ import Table from "react-bootstrap/esm/Table";
 import { Books } from "../book/Book";
 import { Members } from "../member/Member";
 import { useEffect, useState } from "react";
-import { GetAllLending } from "../../service/Lending";
+import { DeleteLending, GetAllLending } from "../../service/Lending";
 import Button from "react-bootstrap/esm/Button";
 
 interface Lendings {
@@ -45,6 +45,19 @@ export const Lending = () => {
         loadData();
     }, [])
 
+    const handleDelete = async(lendingId :string)=> {
+        try {
+            await DeleteLending(lendingId);
+            setLending(lendings.filter((lending)=> lending.lendingId !== lendingId ));
+        } catch (err) {
+            console.error("Error lending "+ err);
+        }
+    }
+
+    const handleEdit = ()=> {
+        console.log("lending data update")
+    }
+
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
             <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
@@ -63,8 +76,11 @@ export const Lending = () => {
                                 <td key={index}>{cell}</td>
                             ))}
                             <td>
-                                <Button variant="outline-secondary"> Edit </Button>
-                                <Button variant="outline-danger" > Delete </Button>
+                                <Button variant="outline-secondary" onClick={handleEdit}> Edit </Button>
+                                <Button variant="outline-danger" 
+                                onClick={
+                                    ()=> handleDelete(row.lendingId)}
+                                > Delete </Button>
                             </td>
                         </tr>
                     ))}

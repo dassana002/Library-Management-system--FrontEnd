@@ -68,6 +68,7 @@ export const Book = () => {
 
     const handleOnClose = () => {
         setShowEditForm(false);
+        setShowAddForm(false);
     };
 
     // Delete Book
@@ -115,8 +116,8 @@ export const Book = () => {
                             <td>{row.price}</td>
                             <td>{row.totalQty}</td>
                             <td>{row.avilableQty}</td>
-                            <td>{row.lastUpdatedDate || "N/A"}</td>
-                            <td>{row.lastUpdatedTime || "N/A"}</td>
+                            <td>{row.lastUpdatedDate}</td>
+                            <td>{row.lastUpdatedTime}</td>
                             <td>
                                 <Button variant="outline-secondary" onClick={() => handleOnEdit(row)}> Edit </Button>
                                 <Button variant="outline-danger" onClick={() => handleOnDelete(row.bookId)}> Delete </Button>
@@ -137,6 +138,7 @@ export const Book = () => {
 
             <BookAdd
                 show ={showAddForm}
+                handleOnClose={handleOnClose}
             />        
         </div>
     );

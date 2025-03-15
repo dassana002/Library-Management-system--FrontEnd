@@ -5,9 +5,10 @@ import Modal from "react-bootstrap/esm/Modal";
 
 interface Pops {
     show :boolean;
+    handleOnClose :()=> void;
 }
 
-export const BookAdd = ({show} :Pops) => {
+export const BookAdd = ({show, handleOnClose} :Pops) => {
     return (
         <div>
             <Modal 
@@ -91,9 +92,9 @@ export const BookAdd = ({show} :Pops) => {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="danger">
-                        Close
-                    </Button>
+                    <Button variant="danger"
+                        onClick={handleOnClose}
+                    >Close</Button>
                     <Button variant="success">
                         Update
                     </Button>

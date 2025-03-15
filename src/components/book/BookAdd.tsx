@@ -9,9 +9,10 @@ interface Pops {
     show: boolean;
     handleOnClose: () => void;
     addbooks: (book: Books) => Promise<void>
+    handleAdd :(newBook :Books) => void
 }
 
-export const BookAdd = ({ show, handleOnClose, addbooks }: Pops) => {
+export const BookAdd = ({ show, handleOnClose, addbooks ,handleAdd }: Pops) => {
 
     const [newBook, setNewBook] = useState<Books>(
         {
@@ -33,6 +34,17 @@ export const BookAdd = ({ show, handleOnClose, addbooks }: Pops) => {
             {...prev ,[name] :value}
         )
         );
+    }
+
+    const handleSubmit= async()=> {
+        try {
+            await addbooks(newBook);
+            handleAdd(newBook)
+            handleOnClose();   
+        } catch (err) {
+            console.error(err);
+            throw err ; 
+        }
     }
 
     return (
@@ -137,9 +149,9 @@ export const BookAdd = ({ show, handleOnClose, addbooks }: Pops) => {
                     <Button variant="danger"
                         onClick={handleOnClose}
                     >Close</Button>
-                    <Button variant="success">
-                        Update
-                    </Button>
+                    <Button variant="success"
+                        onClick={handleSubmit}
+                    >Submit</Button>
                 </Modal.Footer>
             </Modal>
         </div>

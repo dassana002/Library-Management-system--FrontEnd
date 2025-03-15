@@ -80,6 +80,10 @@ export const Book = () => {
         }
     };
 
+    const handleAdd = (newBook :Books)=> {
+        setBooks((prev)=> [...prev , newBook]);
+    }
+
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
 
@@ -136,6 +140,7 @@ export const Book = () => {
                 show ={showAddForm}
                 handleOnClose={()=> setShowAddForm(false)}
                 addbooks={AddBook}
+                handleAdd={handleAdd}
             />        
         </div>
     );

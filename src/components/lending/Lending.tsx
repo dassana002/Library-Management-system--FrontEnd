@@ -60,6 +60,10 @@ export const Lending = () => {
         setSelectedRow(row);
     }
 
+    const handleOnClose = ()=> {
+        setShowEditForm(false);
+    }
+
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
             <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
@@ -98,6 +102,7 @@ export const Lending = () => {
             <LendingEdit
                 show = {showEditForm}
                 selectedRow = {selectedRow}
+                handleOnClose = {handleOnClose}
             />
         </div>
     );

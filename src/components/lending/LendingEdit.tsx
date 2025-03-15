@@ -13,13 +13,13 @@ interface Lendings {
     overDue: number;
     fineAmount: number;
 }
-
 interface Props {
     show :boolean;
     selectedRow :Lendings | null;
+    handleOnClose : ()=> void
 }
 
-export const LendingEdit = ({ show, selectedRow }: Props) => {
+export const LendingEdit = ({ show, selectedRow, handleOnClose}: Props) => {
     console.log(selectedRow)
 
     const [lending, setLending] = useState<Lendings>({
@@ -109,7 +109,9 @@ export const LendingEdit = ({ show, selectedRow }: Props) => {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="secondary">Close</Button>
+                    <Button variant="secondary"
+                        onClick={handleOnClose}
+                    >Close</Button>
                     <Button variant="primary">Save changes</Button>
                 </Modal.Footer>
             </Modal>

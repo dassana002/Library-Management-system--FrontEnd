@@ -4,6 +4,7 @@ import { Members } from "../member/Member";
 import { useEffect, useState } from "react";
 import { DeleteLending, GetAllLending } from "../../service/Lending";
 import Button from "react-bootstrap/esm/Button";
+import { LendingEdit } from "./LendingEdit";
 
 interface Lendings {
     lendingId: string;
@@ -32,6 +33,7 @@ export const Lending = () => {
     ]
 
     const [lendings, setLending] = useState<Lendings[]>([]);
+    const [showEditForm, setShowEditForm] = useState(false);
 
     useEffect(() => {
         const loadData = async () => {
@@ -54,8 +56,8 @@ export const Lending = () => {
         }
     }
 
-    const handleEdit = ()=> {
-        console.log("lending data update")
+    const handleEdit = (row :Lendings)=> {
+        setShowEditForm(true);
     }
 
     return (
@@ -76,10 +78,13 @@ export const Lending = () => {
                                 <td key={index}>{cell}</td>
                             ))}
                             <td>
-                                <Button variant="outline-secondary" onClick={handleEdit}> Edit </Button>
+                                <Button variant="outline-secondary" 
+                                    onClick={
+                                        ()=> handleEdit(row)}
+                                > Edit </Button>
                                 <Button variant="outline-danger" 
-                                onClick={
-                                    ()=> handleDelete(row.lendingId)}
+                                    onClick={
+                                        ()=> handleDelete(row.lendingId)}
                                 > Delete </Button>
                             </td>
                         </tr>
@@ -87,10 +92,12 @@ export const Lending = () => {
 
                 </tbody>
 
-                <tfoot style={{ position: "sticky", bottom: 0, background: "#fff", zIndex: 2 }}>
-
-                </tfoot>
+                <tfoot style={{ position: "sticky", bottom: 0, background: "#fff", zIndex: 2 }}></tfoot>
             </Table>
+
+            <LendingEdit
+                show = {showEditForm}
+            />
         </div>
     );
 }

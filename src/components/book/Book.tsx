@@ -5,9 +5,22 @@ import Button from "react-bootstrap/esm/Button";
 import { BookEdit } from "./BookEdit";
 import { BookDelete } from "./BookDelete";
 
-export const Book = () => {
+export interface Books {
+    bookId: string;
+    title: string;
+    publisher: string;
+    isbn: string;
+    author: string;
+    edition: string;
+    price: number;
+    totalQty: number;
+    avilableQty: number;
+    lastUpdatedDate?: string;
+    lastUpdatedTime?: string;
+}
 
-    const tHeadings :string[] = [
+export const Book = () => {
+    const tHeadings: string[] = [
         "BookId",
         "Title",
         "Publisher",
@@ -16,144 +29,102 @@ export const Book = () => {
         "Edition",
         "Price",
         "Total Qty",
-        "Avl Aty",
+        "Available Qty",
         "Last Updated Date",
         "Last Updated Time",
         "Options"
     ];
 
-    interface Book {
-        bookId: string;
-        title: string;
-        publisher: string;
-        isbn: string;
-        author: string;
-        edition: string;
-        price: number;
-        totalQty: number;
-        avilableQty: number;
-        // lastUpdatedDate: string; 
-        // lastUpdatedTime: string; 
-    }
+    const [books, setBooks] = useState<Books[]>([]);
+    const [showEditForm, setShowEditForm] = useState(false);
+    const [selectedRow, setSelectRow] = useState<Books | null>(null);
 
-    const [books , setBooks] = useState<Book[]>([]);                    // Table eke books rows wla changers kragann use krai
-    const [showEditForm , setShowEditForm] = useState(false);           // Edit Form eka show kranna use krai
-    const [showDeleteForm , setShowDeleteForm] = useState(false);
-    const [selectedRow , setSelectRow] = useState<Book | null>(null);   // select krapu row eka Edit form ekata pass kragann use krano
- 
-    useEffect(()=> {                                                    // component eka Mount wena time ekedi wenn one wada kragann puluwan UseEffect() method eka use krala
-        const loadData = async() => {
-            const getAllBooks = await GetBooks();                       // Books Data Object Array ekk (JSON) BackEnd eken apita enne 
-            setBooks(getAllBooks);   
-        }
-
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const getAllBooks = await GetBooks();
+                setBooks(getAllBooks);
+            } catch (error) {
+                console.error("Error fetching books:", error);
+            }
+        };
         loadData();
-    });
+    }, []);
 
-    
+    // Update Book
+    const handleOnEdit = (row: Books) => {
+        setShowEditForm(true);
+        setSelectRow(row);
+    };
 
-    //Update Book
-    const handleOnEdit = (row :Book)=> {
-        setShowEditForm(true);    // Book Component eke State eka Change kranwa (BookEdit Form eka show kranwa)
-        setSelectRow(row);        // Book Component eke idn select karapu row eke data Catch kragannwa                    
-    }
-
-    
-    const handleUpdateState = (updatedBook :Book)=> {                        // 02.03.04   Update krapu book eka witharak table ekata map kranwa
-        const updatedBooks = books.map((book)=>
-            book.bookId === updatedBook.bookId ? updatedBook : book
+    const handleUpdateState = (updatedBook: Books) => {
+        setBooks((prevBooks) =>
+            prevBooks.map((book) =>
+                book.bookId === updatedBook.bookId ? updatedBook : book
+            )
         );
+    };
 
-        setBooks(updatedBooks);
-    }
-
-    const handleOnClose = ()=> {
+    const handleOnClose = () => {
         setShowEditForm(false);
-    }
+    };
 
-
-    //Delete Book
-
-    const handleOnDelete = async(bookId :string)=> {
+    // Delete Book
+    const handleOnDelete = async (bookId: string) => {
         try {
             await DeleteBook(bookId);
-            setBooks(
-                books.filter(
-                    (book)=> 
-                        book.bookId !== bookId 
-                )
-            );
+            setBooks((prevBooks) => prevBooks.filter((book) => book.bookId !== bookId));
         } catch (err) {
-            console.error(err);
+            console.error("Error deleting book:", err);
         }
-    }
-
-    // const bookDelete = ()=> {
-    //     setShowDeleteForm(false);
-
-    // }
+    };
 
     return (
-
-        // Book  (Parent Component)
-
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
-            <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
+            <Table striped bordered hover style={{ minWidth: "600px" }}>
                 <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
                     <tr>
-                        <th scope="col">Number</th>
-                        {tHeadings.map((headings, index) => (
-                            <th key={index} scope="col">{headings}</th>
+                        <th scope="col">#</th>
+                        {tHeadings.map((heading, index) => (
+                            <th key={index} scope="col">{heading}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
                     {books.map((row, rowIndex) => (
-                        <tr key={row.bookId }>
+                        <tr key={row.bookId}>
                             <th scope="row">{rowIndex + 1}</th>
-                            
-                            {Object.values(row).map(
-                                (cell, index) => (
-                                    <td key={index}>{cell}</td>
-                                )
-                            )}
-
+                            <td>{row.bookId}</td>
+                            <td>{row.title}</td>
+                            <td>{row.publisher}</td>
+                            <td>{row.isbn}</td>
+                            <td>{row.author}</td>
+                            <td>{row.edition}</td>
+                            <td>{row.price}</td>
+                            <td>{row.totalQty}</td>
+                            <td>{row.avilableQty}</td>
+                            <td>{row.lastUpdatedDate || "N/A"}</td>
+                            <td>{row.lastUpdatedTime || "N/A"}</td>
                             <td>
-                                <Button variant="outline-secondary" 
-                                    onClick={()=> 
-                                        handleOnEdit(row)
-                                    } 
-                                    > Edit </Button>
-                                <Button variant="outline-danger" onClick={()=> handleOnDelete(row.bookId)}> Delete </Button>
+                                <Button variant="outline-secondary" onClick={() => handleOnEdit(row)}> Edit </Button>
+                                <Button variant="outline-danger" onClick={() => handleOnDelete(row.bookId)}> Delete </Button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
-    
-                <tfoot style={{ position: "sticky", bottom: 0, background: "#fff", zIndex: 2 }}>
-                    <tr>
-                        <td colSpan={tHeadings.length + 2} 
-                            style={{ textAlign: "center", fontWeight: "bold", padding: "10px" }}></td>
-                    </tr>
-                </tfoot>
             </Table>
 
-        {/*  BookEdit  (Child Component) */}
-        {/* show and selectedRow is arguments (Properties / Pops ) */}
-            <BookEdit     
-                show = {showEditForm} 
-                selectedRow = {selectedRow}
-                handleOnClose = {handleOnClose}
-                updateBooks = {UpdateBooks}  
-                handleUpdateState = {handleUpdateState}    
-            /> 
+            {showEditForm && (
+                <BookEdit
+                    show={showEditForm}
+                    selectedRow={selectedRow}
+                    handleOnClose={handleOnClose}
+                    updateBooks={UpdateBooks}
+                    handleUpdateState={handleUpdateState}
+                />
+            )}
 
-            <BookDelete
-                // show = {showDeleteForm}
-                // bookDelete = {bookDelete}
-            />       
+            <BookDelete />
         </div>
     );
-}
-
-
+};

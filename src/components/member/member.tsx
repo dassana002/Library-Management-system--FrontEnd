@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
-import Table from "react-bootstrap/esm/Table"
+import Table from "react-bootstrap/esm/Table";
 import { DeleteMember, GetAllMembers, UpdateMember } from "../../service/Member";
 import Button from "react-bootstrap/esm/Button";
 import { MemberEdit } from "./MemberEdit";
 
-export const Member = ()=> {
+export interface Members {
+    memberId: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+}
 
-    const tHeadings :string[] = [
+export const Member = () => {
+    const tHeadings: string[] = [
         "#",
         "MemberId",
         "Firstname",
@@ -16,106 +22,83 @@ export const Member = ()=> {
         "Options"
     ];
 
-    interface Member {
-        memberId :string;
-        firstname :string;
-        lastname :string;
-        email :string;
-    }
+    const [members, setMembers] = useState<Members[]>([]);
+    const [showEditForm, setShowEditForm] = useState(false);
+    const [selectedRow, setSelectedRow] = useState<Members | null>(null);
 
-    const [members , setMember] = useState<Member[]>([]);
-    const [showEditForm , setShowEditForm] = useState(false);
-    const [selectedRow , setSelectedRow] = useState<Member | null>(null);
-
-    useEffect(()=> {
-        const loadData = async()=> {
-            const getAllMembers = await GetAllMembers();
-            setMember(getAllMembers)
-        }
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const getAllMembers = await GetAllMembers();
+                setMembers(getAllMembers);
+            } catch (error) {
+                console.error("Error fetching members:", error);
+            }
+        };
         loadData();
-    })
+    }, []); 
 
-    const handleDelete = async(memberId :string)=> {
+    const handleDelete = async (memberId: string) => {
         try {
             await DeleteMember(memberId);
-            setMember(members.filter(
-                (members)=>(
-                    members.memberId !== memberId
-                )
-            ));
+            setMembers(members.filter((member) => member.memberId !== memberId));
         } catch (err) {
-            console.error(err);
+            console.error("Error deleting member:", err);
         }
-    }
+    };
 
-    const handleEdit = (row :Member)=> {
+    const handleEdit = (row: Members) => {
         setShowEditForm(true);
         setSelectedRow(row);
-    }
+    };
 
-    const handleUpdateState = (updateMember :Member)=> {
-        const updateMembers = members.map((member)=>
-            member.memberId === updateMember.memberId ? updateMember : member
-        )
-        setMember(updateMembers);
-    }
+    const handleUpdateState = (updatedMember: Members) => {
+        setMembers((prevMembers) =>
+            prevMembers.map((member) =>
+                member.memberId === updatedMember.memberId ? updatedMember : member
+            )
+        );
+    };
 
-    const handleOnClose = ()=> {
+    const handleOnClose = () => {
         setShowEditForm(false);
-    } 
+    };
 
-    return(
+    return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
-            <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
+            <Table striped bordered hover style={{ minWidth: "600px" }}>
                 <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
                     <tr>
-                        {tHeadings.map((headings,index)=>(
-                            <th key={index} scope="col">{headings}</th>    
+                        {tHeadings.map((heading, index) => (
+                            <th key={index} scope="col">{heading}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {members.map((row,rowIndex)=>(
+                    {members.map((row, rowIndex) => (
                         <tr key={row.memberId}>
-                            <th scope="row">{rowIndex + 1}</th>
-
-                            {Object.values(row).map((cell,index)=>(
-                                <td key={index}>
-                                    {cell}
-                                </td>
+                            <td>{rowIndex+1}</td>
+                            {Object.values(row).map((cell, index)=>(
+                                <td key={index}>{cell}</td>
                             ))}
-                            
-                            <th>
-                                <Button variant="outline-secondary" 
-                                    onClick={
-                                        ()=> handleEdit(row)
-                                    }
-                                > Edit </Button>
-                                <Button variant="outline-danger" 
-                                    onClick={
-                                        ()=> handleDelete(row.memberId)
-                                    }
-                                > Delete </Button>
-                            </th>
+                            <td>
+                                <Button variant="outline-secondary" onClick={() => handleEdit(row)}> Edit </Button>
+                                <Button variant="outline-danger" onClick={() => handleDelete(row.memberId)}> Delete </Button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
-    
-                <tfoot style={{ position: "sticky", bottom: 0, background: "#fff", zIndex: 2 }}>
-                    <tr>
-                        <td colSpan={tHeadings.length + 2} 
-                            style={{ textAlign: "center", fontWeight: "bold", padding: "10px" }}></td>
-                    </tr>
-                </tfoot>
             </Table>
 
-            <MemberEdit
-                show = {showEditForm}
-                selectedRow = {selectedRow}
-                handleOnClose = {handleOnClose}
-                updateMember={UpdateMember}
-                handleUpdateState={handleUpdateState}
-            />
-        </div>    
+            {showEditForm && (
+                <MemberEdit
+                    show={showEditForm}
+                    selectedRow={selectedRow}
+                    handleOnClose={handleOnClose}
+                    updateMember={UpdateMember}
+                    handleUpdateState={handleUpdateState}
+                />
+            )}
+        </div>
     );
-}
+};

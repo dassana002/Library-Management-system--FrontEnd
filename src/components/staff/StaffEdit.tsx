@@ -38,7 +38,7 @@ export const StaffEdit = ({ show, selectedRow, update, handelUpdateState, handle
     }, [selectedRow])
 
     const handleOnChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        setStaff({ ...staff, [e.target.name] : [e.target.value]});
+        setStaff({ ...staff, [e.target.name] : e.target.value });
     }
 
     const handleUpdate = async()=> {

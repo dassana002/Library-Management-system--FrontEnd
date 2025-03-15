@@ -10,114 +10,73 @@ interface Member {
     lastname: string;
     email: string;
 }
+
 interface MemberPops {
-    show :boolean;
-    selectedRow :Member | null;
-    handleOnClose :() => void;
-    updateMember :(member :Member)=> Promise<void>;
-    handleUpdateState :(member :Member)=> void;
+    show: boolean;
+    selectedRow: Member | null;
+    handleOnClose: () => void;
+    updateMember: (member: Member) => Promise<void>;
+    handleUpdateState: (member: Member) => void;
 }
 
-export const MemberEdit = ({ show, selectedRow, handleOnClose ,updateMember ,handleUpdateState }: MemberPops) => {
-
-    const [member , setMember] = useState({
-        memberId :" ",
-        firstname :" ",
-        lastname :" ",
-        email :" "
+export const MemberEdit = ({ show, selectedRow, handleOnClose, updateMember, handleUpdateState }: MemberPops) => {
+    const [member, setMember] = useState<Member>({
+        memberId: "",
+        firstname: "",
+        lastname: "",
+        email: ""
     });
 
-    useEffect(()=>{
-        if (selectedRow !== null) {
-            setMember({...selectedRow});
+    useEffect(() => {
+        if (selectedRow) {
+            setMember({ ...selectedRow });
         }
-    },[selectedRow])
+    }, [selectedRow]);
 
-    const handleOnChange = (e :React.ChangeEvent<HTMLInputElement>)=> {
-        setMember({...member, [e.target.name]:[e.target.value]});
-    }
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMember({ ...member, [e.target.name]: e.target.value });
+    };
 
-    const handleUpdate = async()=> {
+    const handleUpdate = async () => {
         try {
             await updateMember(member);
             handleUpdateState(member);
-            handleClose();
+            handleOnClose();
         } catch (err) {
-            console.error(err);
+            console.error("Error updating member:", err);
         }
-    } 
-
-    const handleClose = () => {
-        handleOnClose();
-    }
+    };
 
     return (
-        <div>
-            <Modal
-                show={show}>
-                <Modal.Header closeButton>
-                    <Modal.Title> Member Edit Form </Modal.Title>
-                </Modal.Header>
+        <Modal show={show} onHide={handleOnClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Member Edit Form</Modal.Title>
+            </Modal.Header>
 
-                <Modal.Body>
-                    <Form>
-                        <FloatingLabel
-                            controlId="floatingInput"
-                            label="Member Id"
-                        >
-                            <Form.Control
-                                name="memberId"
-                                value={member.memberId}    
-                                onChange={handleOnChange}
-                                readOnly
-                            />
-                        </FloatingLabel>
+            <Modal.Body>
+                <Form>
+                    <FloatingLabel controlId="floatingInput" label="Member Id">
+                        <Form.Control name="memberId" value={member.memberId} readOnly />
+                    </FloatingLabel>
 
-                        <FloatingLabel
-                            controlId="floatingInput"
-                            label="First Name"
-                        >
-                            <Form.Control
-                                name="firstname"
-                                value={member.firstname}
-                                onChange={handleOnChange} 
-                            />
-                        </FloatingLabel>
+                    <FloatingLabel controlId="floatingInput" label="First Name">
+                        <Form.Control name="firstname" value={member.firstname} onChange={handleOnChange} />
+                    </FloatingLabel>
 
-                        <FloatingLabel
-                            controlId="floatingPassword"
-                            label="Last Name"
-                        >
-                            <Form.Control
-                                name="lastname"
-                                value={member.lastname}
-                                onChange={handleOnChange}     
-                            />
-                        </FloatingLabel>
+                    <FloatingLabel controlId="floatingPassword" label="Last Name">
+                        <Form.Control name="lastname" value={member.lastname} onChange={handleOnChange} />
+                    </FloatingLabel>
 
-                        <FloatingLabel
-                            controlId="floatingPassword"
-                            label="Email"
-                        >
+                    <FloatingLabel controlId="floatingPassword" label="Email">
+                        <Form.Control name="email" value={member.email} onChange={handleOnChange} />
+                    </FloatingLabel>
+                </Form>
+            </Modal.Body>
 
-                        <Form.Control 
-                            name="email"
-                            value={member.email}
-                            onChange={handleOnChange} 
-                        />
-                        </FloatingLabel>
-                    </Form>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button variant="secondary"
-                        onClick={handleClose}
-                    >Close</Button>
-                    <Button variant="primary"
-                        onClick={handleUpdate}
-                    >Update</Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleOnClose}>Close</Button>
+                <Button variant="primary" onClick={handleUpdate}>Update</Button>
+            </Modal.Footer>
+        </Modal>
     );
-}
+};

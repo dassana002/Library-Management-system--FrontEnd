@@ -58,7 +58,7 @@ export const BookEdit = ({ show, selectedRow , handleOnClose ,updateBooks ,handl
     // Change eka catch kragena e OnChange event eken apu values state ekat dala update krann one (ethakota tmi api type kraddi display wenne) 
     // grab the form input changes
     const handleOnChange = (e :React.ChangeEvent<HTMLInputElement>)=> {    // e walin pennanne ,HTMl input element ekaka tiyena change ekk (Only Type script)
-        setBook({...book , [e.target.name] : [e.target.value]});           // 02.02.01 [e.target.name] : [e.target.value] meken change wena input field eka catch karagnno
+        setBook({...book , [e.target.name] : e.target.value });           // 02.02.01 [e.target.name] : [e.target.value] meken change wena input field eka catch karagnno
     }
 
     const handleUpdate = async() => {           // 02.03.02 (async fuction ekk async fuction ekakinma call krann one)

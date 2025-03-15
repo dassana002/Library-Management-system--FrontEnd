@@ -3,8 +3,20 @@ import axios from "axios";
 const baseURL = "http://localhost:1111/librarySoftware/api/v1/member";
 
 export const GetAllMembers = async () => {
+
     try {
         const response = await axios.get(baseURL);
+        return response.data;
+    } catch (err) {
+        console.error("Error fetching members:", err);
+        return [];
+    }
+};
+
+export const GetMemberById = async (member :string) => {
+
+    try {
+        const response = await axios.get(`${baseURL}/${member}`);
         return response.data;
     } catch (err) {
         console.error("Error fetching members:", err);

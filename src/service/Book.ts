@@ -11,6 +11,15 @@ export const GetBooks = async() => {
     }
 };
 
+export const GetBookbyId = async(book :string ) => {
+    try {
+        const response = await axios.get(`${baseUrl}/${book}`);
+        return response.data;
+    } catch (err) {
+        console.error(err);
+    }
+};
+
 export const DeleteBook = async(bookId :string) => {
     try {
         await axios.delete(`${baseUrl}/${bookId}`);

@@ -3,15 +3,17 @@ import Form from "react-bootstrap/esm/Form";
 import Modal from "react-bootstrap/esm/Modal";
 import { Members } from "../member/Member";
 import { Books } from "../book/Book";
+import { useEffect, useState } from "react";
 
 interface Lendings {
     lendingId: string;
-    book: Books;
-    member: Members;
+    book: Books |null;
+    member: Members | null;
     isActive: boolean;
     overDue: number;
     fineAmount: number;
 }
+
 interface Props {
     show :boolean;
     selectedRow :Lendings | null;
@@ -19,6 +21,22 @@ interface Props {
 
 export const LendingEdit = ({ show, selectedRow }: Props) => {
     console.log(selectedRow)
+
+    const [lending, setLending] = useState<Lendings>({
+        lendingId: "",
+        book: null,
+        member: null,
+        isActive: false,
+        overDue: 0,
+        fineAmount: 0
+    });
+
+    useEffect(()=>{
+        if (selectedRow !== null) {
+            setLending({...selectedRow});
+        }
+    },[selectedRow])
+
     return (
         <div
             className="modal show"
@@ -37,7 +55,9 @@ export const LendingEdit = ({ show, selectedRow }: Props) => {
                             <Form.Label>Lending ID</Form.Label>
                             <Form.Control 
                                 type="text"
-                                name="lendingId"    
+                                name="lendingId"
+                                value={lending.lendingId}
+                                readOnly   
                             />
                         </Form.Group>
 
@@ -46,6 +66,7 @@ export const LendingEdit = ({ show, selectedRow }: Props) => {
                             <Form.Control 
                                 type="text"
                                 name="bookId"
+                                //value={lending.book ? lending.book.bookId : ""} 
                             />
                         </Form.Group>
 
@@ -54,6 +75,7 @@ export const LendingEdit = ({ show, selectedRow }: Props) => {
                             <Form.Control 
                                 type="text"
                                 name="memberId"
+                                //value={lending.member ? lending.member.memberId : ""} 
                             />
                         </Form.Group>
 
@@ -62,6 +84,7 @@ export const LendingEdit = ({ show, selectedRow }: Props) => {
                             <Form.Control 
                                 type="text"
                                 name="isActive"
+                                //value={lending.isActive ? "true" : "false"}
                             />
                         </Form.Group>
 
@@ -70,6 +93,7 @@ export const LendingEdit = ({ show, selectedRow }: Props) => {
                             <Form.Control 
                                 type="text"
                                 name="overDue"
+                                value={lending.overDue}
                             />
                         </Form.Group>
 
@@ -77,7 +101,8 @@ export const LendingEdit = ({ show, selectedRow }: Props) => {
                             <Form.Label>Fine Amount</Form.Label>
                             <Form.Control 
                                 type="text"
-                                name="amount"    
+                                name="amount"  
+                                value={lending.fineAmount}  
                             />
                         </Form.Group>
                     </Form>

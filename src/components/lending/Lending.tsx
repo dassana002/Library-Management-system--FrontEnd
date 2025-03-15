@@ -2,7 +2,7 @@ import Table from "react-bootstrap/esm/Table";
 import { Books } from "../book/Book";
 import { Members } from "../member/Member";
 import { useEffect, useState } from "react";
-import { DeleteLending, GetAllLending } from "../../service/Lending";
+import { DeleteLending, GetAllLending, UpdateLending } from "../../service/Lending";
 import Button from "react-bootstrap/esm/Button";
 import { LendingEdit } from "./LendingEdit";
 
@@ -103,6 +103,7 @@ export const Lending = () => {
                 show = {showEditForm}
                 selectedRow = {selectedRow}
                 handleOnClose = {handleOnClose}
+                update = {UpdateLending}
             />
         </div>
     );

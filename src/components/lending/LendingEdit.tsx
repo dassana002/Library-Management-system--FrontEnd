@@ -3,7 +3,7 @@ import Form from "react-bootstrap/esm/Form";
 import Modal from "react-bootstrap/esm/Modal";
 import { Members } from "../member/Member";
 import { Books } from "../book/Book";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Lendings {
     lendingId: string;
@@ -16,10 +16,11 @@ interface Lendings {
 interface Props {
     show :boolean;
     selectedRow :Lendings | null;
-    handleOnClose : ()=> void
+    handleOnClose : ()=> void;
+    update :(lending :Lendings)=> Promise<void>
 }
 
-export const LendingEdit = ({ show, selectedRow, handleOnClose}: Props) => {
+export const LendingEdit = ({ show, selectedRow, handleOnClose ,update}: Props) => {
     console.log(selectedRow)
 
     const [lending, setLending] = useState<Lendings>({
@@ -36,6 +37,18 @@ export const LendingEdit = ({ show, selectedRow, handleOnClose}: Props) => {
             setLending({...selectedRow});
         }
     },[selectedRow])
+
+    const handleOnChange = (e:React.ChangeEvent<HTMLInputElement>)=> {
+        setLending({...lending , [e.target.name]:e.target.value});
+    }
+
+    const handleUpdate = async()=> {
+        try {
+            await update(lending);
+        } catch (err) {
+            console.error(err);
+        }
+    }    
 
     return (
         <div
@@ -67,6 +80,7 @@ export const LendingEdit = ({ show, selectedRow, handleOnClose}: Props) => {
                                 type="text"
                                 name="bookId"
                                 //value={lending.book ? lending.book.bookId : ""} 
+                                onChange={handleOnChange}
                             />
                         </Form.Group>
 
@@ -76,6 +90,7 @@ export const LendingEdit = ({ show, selectedRow, handleOnClose}: Props) => {
                                 type="text"
                                 name="memberId"
                                 //value={lending.member ? lending.member.memberId : ""} 
+                                onChange={handleOnChange}
                             />
                         </Form.Group>
 
@@ -84,7 +99,8 @@ export const LendingEdit = ({ show, selectedRow, handleOnClose}: Props) => {
                             <Form.Control 
                                 type="text"
                                 name="isActive"
-                                //value={lending.isActive ? "true" : "false"}
+                                value={lending.isActive ? "true" : "false"}
+                                onChange={handleOnChange}
                             />
                         </Form.Group>
 
@@ -94,6 +110,7 @@ export const LendingEdit = ({ show, selectedRow, handleOnClose}: Props) => {
                                 type="text"
                                 name="overDue"
                                 value={lending.overDue}
+                                onChange={handleOnChange}
                             />
                         </Form.Group>
 
@@ -102,7 +119,8 @@ export const LendingEdit = ({ show, selectedRow, handleOnClose}: Props) => {
                             <Form.Control 
                                 type="text"
                                 name="amount"  
-                                value={lending.fineAmount}  
+                                value={lending.fineAmount} 
+                                onChange={handleOnChange} 
                             />
                         </Form.Group>
                     </Form>
@@ -112,7 +130,9 @@ export const LendingEdit = ({ show, selectedRow, handleOnClose}: Props) => {
                     <Button variant="secondary"
                         onClick={handleOnClose}
                     >Close</Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant="primary"
+                        onClick={handleUpdate}
+                    >Save changes</Button>
                 </Modal.Footer>
             </Modal>
         </div>

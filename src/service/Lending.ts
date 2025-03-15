@@ -20,3 +20,11 @@ export const DeleteLending = async(LendingId :string)=> {
         return [];
     }
 }
+
+export const UpdateLending = async(row :any)=> {
+    try {
+        await axios.put(`${baseURL}/${row.lendingId}`,row);
+    } catch (err) {
+        console.error(err);
+    }
+}

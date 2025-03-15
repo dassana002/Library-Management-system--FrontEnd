@@ -35,3 +35,11 @@ export const UpdateBooks = async(book: any) => {
     }
 };
 
+export const AddBook = async(book :any)=> {
+    try {
+        await axios.post(`${baseUrl}/addBook`,book);
+    } catch (err) {
+        console.error(err);
+    }
+}
+

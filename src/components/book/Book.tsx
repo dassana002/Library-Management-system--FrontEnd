@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
-import { DeleteBook, GetBooks, UpdateBooks } from "../../service/Book";
+import { AddBook, DeleteBook, GetBooks, UpdateBooks } from "../../service/Book";
 import Button from "react-bootstrap/esm/Button";
 import { BookEdit } from "./BookEdit";
 import { BookAdd } from "./BookAdd";
@@ -68,7 +68,6 @@ export const Book = () => {
 
     const handleOnClose = () => {
         setShowEditForm(false);
-        setShowAddForm(false);
     };
 
     // Delete Book
@@ -81,16 +80,13 @@ export const Book = () => {
         }
     };
 
-    const handleAddForm = ()=> {
-        setShowAddForm(true);
-    }
-
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
 
             <div className="d-flex justify-content-end p-3">
                 <Button variant="outline-primary" 
-                    onClick={handleAddForm}
+                    onClick={
+                        ()=> setShowAddForm(true)}
                 >Add Book</Button>
             </div>
 
@@ -138,7 +134,8 @@ export const Book = () => {
 
             <BookAdd
                 show ={showAddForm}
-                handleOnClose={handleOnClose}
+                handleOnClose={()=> setShowAddForm(false)}
+                addbooks={AddBook}
             />        
         </div>
     );

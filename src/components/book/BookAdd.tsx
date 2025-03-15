@@ -2,16 +2,42 @@ import Button from "react-bootstrap/esm/Button";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import Form from "react-bootstrap/esm/Form";
 import Modal from "react-bootstrap/esm/Modal";
+import { Books } from "./Book";
+import React, { useState } from "react";
 
 interface Pops {
-    show :boolean;
-    handleOnClose :()=> void;
+    show: boolean;
+    handleOnClose: () => void;
+    addbooks: (book: Books) => Promise<void>
 }
 
-export const BookAdd = ({show, handleOnClose} :Pops) => {
+export const BookAdd = ({ show, handleOnClose, addbooks }: Pops) => {
+
+    const [newBook, setNewBook] = useState<Books>(
+        {
+            bookId: "",
+            title: "",
+            publisher: "",
+            isbn: "",
+            author: "",
+            edition: "",
+            price: 0,
+            totalQty: 0,
+            avilableQty: 0
+        }
+    );
+
+    const handleOnChange = (e:React.ChangeEvent<HTMLInputElement>)=> {
+        const {name , value}  = e.target ;
+        setNewBook((prev)=>(
+            {...prev ,[name] :value}
+        )
+        );
+    }
+
     return (
         <div>
-            <Modal 
+            <Modal
                 show={show}
             >
                 <Modal.Header closeButton>
@@ -30,6 +56,8 @@ export const BookAdd = ({show, handleOnClose} :Pops) => {
                                 type="textl"
                                 placeholder="name@example.com"
                                 name="title"
+                                value={newBook.title}
+                                onChange={handleOnChange}
                             />
                         </FloatingLabel>
 
@@ -38,6 +66,8 @@ export const BookAdd = ({show, handleOnClose} :Pops) => {
                                 type="text"
                                 placeholder="Password"
                                 name="publisher"
+                                value={newBook.publisher}
+                                onChange={handleOnChange}
                             />
                         </FloatingLabel>
 
@@ -46,6 +76,8 @@ export const BookAdd = ({show, handleOnClose} :Pops) => {
                                 type="text"
                                 placeholder="Password"
                                 name="isbn"
+                                value={newBook.isbn}
+                                onChange={handleOnChange}
                             />
                         </FloatingLabel>
 
@@ -54,6 +86,8 @@ export const BookAdd = ({show, handleOnClose} :Pops) => {
                                 type="text"
                                 placeholder="Password"
                                 name="author"
+                                value={newBook.author}
+                                onChange={handleOnChange}
                             />
                         </FloatingLabel>
 
@@ -62,6 +96,8 @@ export const BookAdd = ({show, handleOnClose} :Pops) => {
                                 type="text"
                                 placeholder="Password"
                                 name="edition"
+                                value={newBook.edition}
+                                onChange={handleOnChange}
                             />
                         </FloatingLabel>
 
@@ -70,6 +106,8 @@ export const BookAdd = ({show, handleOnClose} :Pops) => {
                                 type="number"
                                 placeholder="Password"
                                 name="price"
+                                value={newBook.price}
+                                onChange={handleOnChange}
                             />
                         </FloatingLabel>
 
@@ -78,6 +116,8 @@ export const BookAdd = ({show, handleOnClose} :Pops) => {
                                 type="nuber"
                                 placeholder="Password"
                                 name="totalQty"
+                                value={newBook.totalQty}
+                                onChange={handleOnChange}
                             />
                         </FloatingLabel>
 
@@ -86,6 +126,8 @@ export const BookAdd = ({show, handleOnClose} :Pops) => {
                                 type="number"
                                 placeholder="Password"
                                 name="avilableQty"
+                                value={newBook.avilableQty}
+                                onChange={handleOnChange}
                             />
                         </FloatingLabel>
                     </Form>

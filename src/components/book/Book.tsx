@@ -3,7 +3,7 @@ import Table from "react-bootstrap/esm/Table";
 import { DeleteBook, GetBooks, UpdateBooks } from "../../service/Book";
 import Button from "react-bootstrap/esm/Button";
 import { BookEdit } from "./BookEdit";
-import { BookDelete } from "./BookDelete";
+import { BookAdd } from "./BookAdd";
 
 export interface Books {
     bookId: string;
@@ -38,6 +38,7 @@ export const Book = () => {
     const [books, setBooks] = useState<Books[]>([]);
     const [showEditForm, setShowEditForm] = useState(false);
     const [selectedRow, setSelectRow] = useState<Books | null>(null);
+    const [showAddForm, setShowAddForm] = useState(false);
 
     useEffect(() => {
         const loadData = async () => {
@@ -79,8 +80,19 @@ export const Book = () => {
         }
     };
 
+    const handleAddForm = ()=> {
+        setShowAddForm(true);
+    }
+
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
+
+            <div className="d-flex justify-content-end p-3">
+                <Button variant="outline-primary" 
+                    onClick={handleAddForm}
+                >Add Book</Button>
+            </div>
+
             <Table striped bordered hover style={{ minWidth: "600px" }}>
                 <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
                     <tr>
@@ -114,17 +126,18 @@ export const Book = () => {
                 </tbody>
             </Table>
 
-            {showEditForm && (
-                <BookEdit
-                    show={showEditForm}
-                    selectedRow={selectedRow}
-                    handleOnClose={handleOnClose}
-                    updateBooks={UpdateBooks}
-                    handleUpdateState={handleUpdateState}
-                />
-            )}
 
-            <BookDelete />
+            <BookEdit
+                show={showEditForm}
+                selectedRow={selectedRow}
+                handleOnClose={handleOnClose}
+                updateBooks={UpdateBooks}
+                handleUpdateState={handleUpdateState}
+            />
+
+            <BookAdd
+                show ={showAddForm}
+            />        
         </div>
     );
 };

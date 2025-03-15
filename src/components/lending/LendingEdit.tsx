@@ -2,7 +2,15 @@ import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/esm/Form";
 import Modal from "react-bootstrap/esm/Modal";
 import React, { useEffect, useState } from "react";
-import { Lendings } from "../types/LendingTypes";
+
+export interface Lendings {
+    lendingId: string;
+    bookId: string;
+    memberId: string;
+    isActive: boolean;
+    overDue: number;
+    fineAmount: number;
+}
 
 interface Props {
     show: boolean;
@@ -15,8 +23,8 @@ interface Props {
 export const LendingEdit = ({ show, selectedRow, handleOnClose, update, handleUpdateState }: Props) => {
     const [lending, setLending] = useState<Lendings>({
         lendingId: "",
-        book: null,
-        member: null,
+        bookId: "",
+        memberId: "",
         isActive: false,
         overDue: 0,
         fineAmount: 0
@@ -28,41 +36,28 @@ export const LendingEdit = ({ show, selectedRow, handleOnClose, update, handleUp
         }
     }, [selectedRow]);
 
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = e.target;
-
-        setLending(prevState => {
-            if (name === "isActive") {
-                return { ...prevState, isActive: checked };
-            } else if (name === "bookId") {
-                return prevState.book ? { ...prevState, book: { ...prevState.book, bookId: value } } : prevState;
-            } else if (name === "memberId") {
-                return prevState.member ? { ...prevState, member: { ...prevState.member, memberId: value } } : prevState;
-            } else {
-                return { ...prevState, [name]: value };
-            }
-        });
+    const handleOnChange = (e: React.ChangeEvent<any>) => {  
+        const { name, type, value } = e.target;
+    
+        setLending((prevLending) => ({
+            ...prevLending,
+            [name]: 
+                type === "number" ? (value ? Number(value) : 0) : 
+                name === "isActive" ? value === "true" : value
+        }));
     };
+    
 
     const handleUpdate = async () => {
-        if (!lending.book || !lending.member) {
-            console.error("Book or Member is null!");
-            return;
-        }
-    
         try {
+            
             await update(lending);
-            handleUpdateState({
-                ...lending,
-                book: lending.book,
-                member: lending.member
-            });
+            handleUpdateState(lending);
             handleOnClose();
         } catch (err) {
             console.error(err);
         }
     };
-    
 
     return (
         <Modal show={show} onHide={handleOnClose}>
@@ -82,7 +77,7 @@ export const LendingEdit = ({ show, selectedRow, handleOnClose, update, handleUp
                         <Form.Control
                             type="text"
                             name="bookId"
-                            value={lending.book ? lending.book.bookId : ""}
+                            value={lending.bookId}
                             onChange={handleOnChange}
                         />
                     </Form.Group>
@@ -92,9 +87,21 @@ export const LendingEdit = ({ show, selectedRow, handleOnClose, update, handleUp
                         <Form.Control
                             type="text"
                             name="memberId"
-                            value={lending.member ? lending.member.memberId : ""}
+                            value={lending.memberId}
                             onChange={handleOnChange}
                         />
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Is Active</Form.Label>
+                        <Form.Select
+                            name="isActive"
+                            value={lending.isActive ? "true" : "false"}
+                            onChange={handleOnChange}
+                        >
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </Form.Select>
                     </Form.Group>
 
                     <Form.Group>
@@ -113,16 +120,6 @@ export const LendingEdit = ({ show, selectedRow, handleOnClose, update, handleUp
                             type="number"
                             name="fineAmount"
                             value={lending.fineAmount}
-                            onChange={handleOnChange}
-                        />
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Check
-                            type="checkbox"
-                            label="Is Active"
-                            name="isActive"
-                            checked={lending.isActive}
                             onChange={handleOnChange}
                         />
                     </Form.Group>

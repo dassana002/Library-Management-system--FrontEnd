@@ -1,12 +1,17 @@
 import Table from "react-bootstrap/esm/Table";
-import { Books } from "../book/Book";
-import { Members } from "../member/Member";
 import { useEffect, useState } from "react";
 import { DeleteLending, GetAllLending, UpdateLending } from "../../service/Lending";
 import Button from "react-bootstrap/esm/Button";
 import { LendingEdit } from "./LendingEdit";
-import { Lendings } from "../types/LendingTypes";
 
+export interface Lendings {
+    lendingId: string;
+    bookId: string;
+    memberId: string;
+    isActive: boolean;
+    overDue: number;
+    fineAmount: number;
+}
 
 export const Lending = () => {
     const tHeadings: string[] = [
@@ -14,6 +19,8 @@ export const Lending = () => {
         "Lending Id",
         "Book Id",
         "Member Id",
+        "Lending Date",
+        "Return Date",
         "Is Active",
         "Over Due",
         "Fine Amount",
@@ -55,7 +62,7 @@ export const Lending = () => {
     const handleUpdateState = (updatedLending: Lendings) => {
         setLending((prevLendings) =>
             prevLendings.map((lending) =>
-                lending.lendingId === updatedLending.lendingId ? updatedLending : lending
+                lending.lendingId === updatedLending.lendingId ? { ...updatedLending } : lending
             )
         );
     };
@@ -80,12 +87,9 @@ export const Lending = () => {
                     {lendings.map((row, rowIndex) => (
                         <tr key={row.lendingId}>
                             <td>{rowIndex + 1}</td>
-                            <td>{row.lendingId}</td>
-                            <td>{row.book?.bookId}</td>
-                            <td>{row.member?.memberId}</td>
-                            <td>{row.isActive ? "Yes" : "No"}</td>
-                            <td>{row.overDue}</td>
-                            <td>{row.fineAmount}</td>
+                            {Object.values(row).map((cell,index)=>
+                                <td key={index}>{cell}</td>
+                            )}
                             <td>
                                 <Button variant="outline-secondary" onClick={() => handleEdit(row)}>Edit</Button>
                                 <Button variant="outline-danger" onClick={() => handleDelete(row.lendingId)}>Delete</Button>

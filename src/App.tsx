@@ -1,16 +1,16 @@
-import { BrowserRouter, Route } from "react-router";
+import { BrowserRouter, Route, Router, Routes } from "react-router";
 import { Book } from "./components/book/Book";
 import { Lending } from "./components/lending/Lending";
 import { Member } from "./components/member/Member";
 import { NavBar } from "./components/NavBar";
 import { Staff } from "./components/staff/Staff";
-import { Signin } from "./components/user/Signin";
+import Signin from "./components/user/Signin";
+import SignIn from "./components/user/Signin";
 
 function App() {
   return (
-      <div className="App">
-        <Signin/>
-        {/* <BrowserRouter>
+    <div className="App">
+      {/* <BrowserRouter>
           <NavBar/>
             <Route path="/" element={<Book/>}/>
             <Route path="/book" element={<Book/>}/>
@@ -19,9 +19,16 @@ function App() {
             <Route path="/lending" element={<Lending/>}/>
         </BrowserRouter> */}
 
+      {/* <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </BrowserRouter> */}
 
-        
-      </div>
+<Signin/>
+    </div>
   );
 }
 

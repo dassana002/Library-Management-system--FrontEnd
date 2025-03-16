@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { DeleteLending, GetAllLending, UpdateLending } from "../../service/Lending";
 import Button from "react-bootstrap/esm/Button";
 import { LendingEdit } from "./LendingEdit";
+import { LendingAdd } from "./LendingAdd";
 
 export interface Lendings {
     lendingId: string;
@@ -30,6 +31,7 @@ export const Lending = () => {
     const [lendings, setLending] = useState<Lendings[]>([]);
     const [showEditForm, setShowEditForm] = useState(false);
     const [selectedRow, setSelectedRow] = useState<Lendings | null>(null);
+    const [showAddForm, setShowAddForm] =  useState(false);
 
     useEffect(() => {
         const loadData = async () => {
@@ -75,6 +77,14 @@ export const Lending = () => {
 
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
+            
+            <div className="d-flex justify-content-end p-3">
+                <Button variant="outline-primary" 
+                    onClick={
+                        ()=> setShowAddForm(true)}
+                >Add Book</Button>
+            </div>
+            
             <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
                 <thead>
                     <tr>
@@ -87,7 +97,7 @@ export const Lending = () => {
                     {lendings.map((row, rowIndex) => (
                         <tr key={row.lendingId}>
                             <td>{rowIndex + 1}</td>
-                            {Object.values(row).map((cell,index)=>
+                            {Object.values(row).map((cell, index) =>
                                 <td key={index}>{cell}</td>
                             )}
                             <td>
@@ -100,7 +110,18 @@ export const Lending = () => {
 
             </Table>
 
-            <LendingEdit show={showEditForm} selectedRow={selectedRow} handleOnClose={handleOnClose} update={UpdateLending} handleUpdateState={handleUpdateState} />
+            <LendingEdit
+                show={showEditForm}
+                selectedRow={selectedRow}
+                handleOnClose={handleOnClose}
+                update={UpdateLending}
+                handleUpdateState={handleUpdateState}
+            />
+
+            <LendingAdd
+                show ={showAddForm}
+                handleOnClose={()=> setShowAddForm(false)}
+            />
         </div>
     );
 };

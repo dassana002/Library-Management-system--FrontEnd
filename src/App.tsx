@@ -4,12 +4,12 @@ import { Lending } from "./components/lending/Lending";
 import { Member } from "./components/member/Member";
 import { NavBar } from "./components/NavBar";
 import { Staff } from "./components/staff/Staff";
-import Signin from "./components/user/Signin";
-import SignIn from "./components/user/Signin";
+import { Signin } from "./components/user/Signin";
 
 function App() {
   return (
     <div className="App">
+      <Signin/>
       {/* <BrowserRouter>
           <NavBar/>
             <Route path="/" element={<Book/>}/>
@@ -27,7 +27,7 @@ function App() {
         </Routes>
       </BrowserRouter> */}
 
-<Signin/>
+
     </div>
   );
 }

@@ -9,13 +9,12 @@ export const Signin = ()=> {
                 <Form className="Signin-form">
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="fs-5">Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" size="lg" />
-                        <Form.Text className="text-muted fs-6">We'll never share your email with anyone else.</Form.Text>
+                        <Form.Control type="email" placeholder="Enter email" size="sm" />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label className="fs-5">Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" size="lg" />
+                        <Form.Control type="password" placeholder="Password" size="sm" />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
@@ -26,7 +25,7 @@ export const Signin = ()=> {
 
                     {/* Footer with Sign-Up Link */}
                     <div className="text-center mt-4">
-                        <p className="mb-0 fs-6">Don't have an account? <Link to="/signup">Sign Up</Link></p>
+                        <p className="mb-0 fs-6">Don't have an account? <Link to="/signup">SignUp</Link></p>
                     </div>
                 </Form>
             </div>

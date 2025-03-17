@@ -1,15 +1,15 @@
-import { BrowserRouter, Route, Router, Routes } from "react-router";
+import { BrowserRouter, Route,Router,Routes } from "react-router";
 import { Book } from "./components/book/Book";
 import { Lending } from "./components/lending/Lending";
 import { Member } from "./components/member/Member";
 import { NavBar } from "./components/NavBar";
 import { Staff } from "./components/staff/Staff";
 import { Signin } from "./components/user/Signin";
+import { Signup } from "./components/user/Signup";
 
 function App() {
   return (
     <div className="App">
-      <Signin/>
       {/* <BrowserRouter>
           <NavBar/>
             <Route path="/" element={<Book/>}/>
@@ -19,13 +19,13 @@ function App() {
             <Route path="/lending" element={<Lending/>}/>
         </BrowserRouter> */}
 
-      {/* <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<SignIn />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-        </Routes>
-      </BrowserRouter> */}
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Signin />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>  
+        </BrowserRouter>
 
 
     </div>

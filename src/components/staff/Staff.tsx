@@ -39,7 +39,7 @@ export const Staff = () => {
         }
 
         loadData();
-    })
+    },[staffs])
 
     const handleEdit = (staff :Staff) => {
         setShowEditForm(true);
@@ -73,8 +73,8 @@ export const Staff = () => {
     } 
 
     const handleAdd = (newStaff :Staff)=>{
-        setStaff((prev)=>(
-            [...prev, newStaff]
+        setStaff((prev)=> (
+            [...prev , newStaff]
         ));
     }
 

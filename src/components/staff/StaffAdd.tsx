@@ -21,8 +21,12 @@ export const StaffAdd = ({show, handleOnClose} :Pops) => {
             role : ""
         }
     );
-    const handleOnChange = ()=>{
-
+    const handleOnChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+        const {name, value} = e.target;
+        
+        setNewStaff((prev)=>
+            ({...prev , [name]:value})
+        );
     }
 
     return (

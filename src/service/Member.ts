@@ -32,7 +32,7 @@ export const DeleteMember = async (memberId: string) => {
     }
 };
 
-export const UpdateMember = async (member: any) => {
+export const UpdateMember = async(member: any) => {
     try {
         const response = await axios.put(`${baseURL}/${member.memberId}`, member);
         return response.data; 
@@ -40,3 +40,11 @@ export const UpdateMember = async (member: any) => {
         console.error("Error updating member:", err);
     }
 };
+
+export const SaveMember = async(newMember :any)=>{
+    try {
+        await axios.post(`${baseURL}`,newMember);             
+    } catch (error) {
+        console.error(error);
+    }
+}

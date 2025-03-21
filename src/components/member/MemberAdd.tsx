@@ -1,13 +1,47 @@
+import { useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import FloatingLabel from "react-bootstrap/esm/FloatingLabel";
 import Form from "react-bootstrap/esm/Form";
 import Modal from "react-bootstrap/esm/Modal";
+import { Members } from "./Member";
 
 interface Pops {
-    show: boolean;
+    show :boolean;
+    handleOnClose :()=> void;
+    update :(newMember :Members)=> Promise<void>;
+    handleAdd :(newMember :Members)=> void;
 }
 
-export const MemberAdd = ({ show }: Pops) => {
+export const MemberAdd = ({ show, handleOnClose, update, handleAdd} :Pops) => {
+
+    const [newMember, setNewMember] = useState<Members>(
+        {
+            memberId :"",
+            firstname :"",
+            lastname :"",
+            email :""  
+        }
+    );
+
+    const handleOnChange = (e:React.ChangeEvent<HTMLInputElement>)=> {
+        const {name, value} = e.target;
+
+        setNewMember((prev)=> (
+            {...prev ,[name] : value}
+        ));
+    }
+
+    const handleUpdate = async()=> {
+        try {
+            await update(newMember);
+            handleAdd(newMember);
+            handleOnClose();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
     return (
         <div
             className="modal show"
@@ -22,19 +56,13 @@ export const MemberAdd = ({ show }: Pops) => {
 
                 <Modal.Body>
                 <Form>
-                    <FloatingLabel controlId="floatingInput" label="Member Id">
-                        <Form.Control 
-                            name="memberId" 
-                            placeholder="Member Id" 
-                            size="sm"
-                        />
-                    </FloatingLabel>
-
                     <FloatingLabel controlId="floatingInput" label="First Name">
                         <Form.Control 
                             name="firstname" 
                             placeholder="First Name" 
                             size="sm" 
+                            value={newMember.firstname}
+                            onChange={handleOnChange}
                         />
                     </FloatingLabel>
 
@@ -43,6 +71,8 @@ export const MemberAdd = ({ show }: Pops) => {
                             name="lastname" 
                             placeholder="Last Name" 
                             size="sm" 
+                            value={newMember.lastname}
+                            onChange={handleOnChange}
                         />
                     </FloatingLabel>
 
@@ -51,14 +81,16 @@ export const MemberAdd = ({ show }: Pops) => {
                             name="email" 
                             placeholder="Email" 
                             size="sm" 
+                            value={newMember.email}
+                            onChange={handleOnChange}
                         />
                     </FloatingLabel>
                 </Form>
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="secondary">Close</Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant="secondary" onClick={handleOnClose}> Close</Button>
+                    <Button variant="primary" onClick={handleUpdate}>Save changes</Button>
                 </Modal.Footer>
             </Modal>
         </div>

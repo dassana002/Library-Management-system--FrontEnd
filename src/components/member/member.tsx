@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
-import { DeleteMember, GetAllMembers, UpdateMember } from "../../service/Member";
+import { DeleteMember, GetAllMembers, SaveMember, UpdateMember } from "../../service/Member";
 import Button from "react-bootstrap/esm/Button";
 import { MemberEdit } from "./MemberEdit";
 import { MemberAdd } from "./MemberAdd";
@@ -38,7 +38,7 @@ export const Member = () => {
             }
         };
         loadData();
-    }, []); 
+    }, [members]); 
 
     const handleDelete = async (memberId: string) => {
         try {
@@ -62,8 +62,20 @@ export const Member = () => {
         );
     };
 
+    const handleAdd = async(newMember :Members)=> {
+        try {
+            await SaveMember(newMember);
+            setMembers(
+                (prevs)=> 
+                    [...prevs , newMember]);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const handleOnClose = () => {
         setShowEditForm(false);
+        setShowAddForm(false);
     };
 
     return (
@@ -110,6 +122,9 @@ export const Member = () => {
 
             <MemberAdd
                 show = {showAddForm}
+                handleOnClose = {handleOnClose}
+                update = {UpdateMember}
+                handleAdd={handleAdd}
             />    
         </div>
     );

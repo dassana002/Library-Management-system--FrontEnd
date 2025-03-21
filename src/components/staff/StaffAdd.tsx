@@ -8,11 +8,13 @@ import { useState } from "react";
 interface Pops {
     show : boolean;
     handleOnClose :()=> void;
+    update :(newStaff :Staff)=> Promise<void>;
+    handleAdd :(newStaff :Staff)=> void;
 }
 
-export const StaffAdd = ({show, handleOnClose} :Pops) => {
+export const StaffAdd = ({show, handleOnClose, update, handleAdd} :Pops) => {
 
-    const [NewStaff , setNewStaff] = useState<Staff>(
+    const [newStaff, setNewStaff] = useState<Staff>(
         {
             staffId :"",
             firstName :"",
@@ -21,6 +23,7 @@ export const StaffAdd = ({show, handleOnClose} :Pops) => {
             role : ""
         }
     );
+
     const handleOnChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const {name, value} = e.target;
         
@@ -28,6 +31,17 @@ export const StaffAdd = ({show, handleOnClose} :Pops) => {
             ({...prev , [name]:value})
         );
     }
+
+    const handleUpdate = async()=>{
+        try {
+            await update(newStaff);
+            handleAdd(newStaff);
+            handleOnClose();
+        } catch (err) {
+            console.error("err",err);
+        }
+    }
+
 
     return (
         <div
@@ -51,7 +65,7 @@ export const StaffAdd = ({show, handleOnClose} :Pops) => {
                                 type="text"
                                 placeholder="First Name"
                                 name="firstName"
-                                value={NewStaff.firstName}
+                                value={newStaff.firstName}
                                 onChange={handleOnChange}
                             />
                         </FloatingLabel>
@@ -64,7 +78,7 @@ export const StaffAdd = ({show, handleOnClose} :Pops) => {
                                 type="text"
                                 name="lastName"
                                 placeholder="Last Name"
-                                value={NewStaff.lastName}
+                                value={newStaff.lastName}
                                 onChange={handleOnChange}
                             />
                         </FloatingLabel>
@@ -77,7 +91,7 @@ export const StaffAdd = ({show, handleOnClose} :Pops) => {
                                 type="text"
                                 name="email"
                                 placeholder="Email"
-                                value={NewStaff.email}
+                                value={newStaff.email}
                                 onChange={handleOnChange}
                             />
                         </FloatingLabel>
@@ -92,7 +106,7 @@ export const StaffAdd = ({show, handleOnClose} :Pops) => {
                                 type="text"
                                 name="role"
                                 placeholder="Role"
-                                value={NewStaff.role}
+                                value={newStaff.role}
                                 onChange={handleOnChange}
                             />
                         </FloatingLabel>
@@ -103,7 +117,7 @@ export const StaffAdd = ({show, handleOnClose} :Pops) => {
 
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleOnClose}>Close</Button>
-                    <Button variant="primary">Save changes</Button>
+                    <Button variant="primary"onClick={handleUpdate}>Save changes</Button>
                 </Modal.Footer>
             </Modal>
         </div>

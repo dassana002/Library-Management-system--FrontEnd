@@ -26,3 +26,11 @@ export const UpdateStaff = async(staff :any)=> {
         console.error(err);
     }
 }
+
+export const SaveStaff = async(staff :any)=> {
+    try {
+        await axios.post(`${baseURL}`,staff);
+    } catch (error) {
+        console.error(error);
+    }
+}

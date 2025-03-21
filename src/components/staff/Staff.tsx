@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/esm/Table";
-import { DeleteStaff, GetAllStaff, UpdateStaff } from "../../service/Staff";
+import { DeleteStaff, GetAllStaff, SaveStaff, UpdateStaff } from "../../service/Staff";
 import Button from "react-bootstrap/esm/Button";
 import { StaffEdit } from "./StaffEdit";
 import { StaffAdd } from "./StaffAdd";
@@ -72,6 +72,12 @@ export const Staff = () => {
         setShowAddForm(false);
     } 
 
+    const handleAdd = (newStaff :Staff)=>{
+        setStaff((prev)=>(
+            [...prev, newStaff]
+        ));
+    }
+
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
             
@@ -94,9 +100,8 @@ export const Staff = () => {
 
                 <tbody>
                     {staffs.map((row, index) =>
-
                         <tr key={row.staffId}>
-                            <td>{index + 1}</td>
+                        <td>{index + 1}</td>
                             {Object.values(row).map((cell, index) =>
                                 <td key={index}>{cell}</td>
                             )}
@@ -136,6 +141,8 @@ export const Staff = () => {
             <StaffAdd
                 show={showAddForm}
                 handleOnClose= {handleOnClose}
+                update={SaveStaff}
+                handleAdd={handleAdd}
             />
         </div>
     );

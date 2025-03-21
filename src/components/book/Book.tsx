@@ -4,6 +4,7 @@ import { AddBook, DeleteBook, GetBooks, UpdateBooks } from "../../service/Book";
 import Button from "react-bootstrap/esm/Button";
 import { BookEdit } from "./BookEdit";
 import { BookAdd } from "./BookAdd";
+import { useLocation } from "react-router";
 
 export interface Books {
     bookId: string;
@@ -20,6 +21,8 @@ export interface Books {
 }
 
 export const Book = () => {
+    // const location = useLocation(); 
+    
     const tHeadings: string[] = [
         "BookId",
         "Title",
@@ -44,7 +47,7 @@ export const Book = () => {
         const loadData = async () => {
             try {
                 const getAllBooks = await GetBooks();
-                setBooks(getAllBooks);
+                setBooks(getAllBooks || []);
             } catch (error) {
                 console.error("Error fetching books:", error);
             }
@@ -85,6 +88,8 @@ export const Book = () => {
     }
 
     return (
+        <div>
+        {/* <div>Current Path: {location.pathname}</div> */}
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
 
             <div className="d-flex justify-content-end p-3">
@@ -142,6 +147,7 @@ export const Book = () => {
                 addbooks={AddBook}
                 handleAdd={handleAdd}
             />        
+        </div>
         </div>
     );
 };

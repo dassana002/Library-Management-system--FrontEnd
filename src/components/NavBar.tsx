@@ -8,6 +8,7 @@ export const NavBar = () => {
         <div>
             <Navbar bg="dark" data-bs-theme="dark">
                 <Container>
+                <p  >Library Management System</p>
                     <Nav className="navBar">
                         <Nav.Link as = {NavLink} to="/book"> Book </Nav.Link>
                         <Nav.Link as = {NavLink} to="/member"> Member </Nav.Link>

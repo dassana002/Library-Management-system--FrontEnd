@@ -15,7 +15,7 @@ export const MemberAdd = ({show} :Pops) => {
                 show={show}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <Modal.Title>Member Add</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>

@@ -3,6 +3,15 @@ import Table from "react-bootstrap/esm/Table";
 import { DeleteStaff, GetAllStaff, UpdateStaff } from "../../service/Staff";
 import Button from "react-bootstrap/esm/Button";
 import { StaffEdit } from "./StaffEdit";
+import { StaffAdd } from "./StaffAdd";
+
+export interface Staff {
+    staffId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: string;
+}
 
 export const Staff = () => {
 
@@ -18,17 +27,10 @@ export const Staff = () => {
         "Options"
     ];
 
-    interface Staff {
-        staffId: string;
-        firstName: string;
-        lastName: string;
-        email: string;
-        role: string;
-    }
-
     const [staffs, setStaff] = useState<Staff[]>([]);
     const [showEditForm, setShowEditForm] = useState(false);
-    const [selectedRow, setSelectedRow] = useState<Staff | null>(null)
+    const [selectedRow, setSelectedRow] = useState<Staff | null>(null);
+    const [showAddForm, setShowAddForm] = useState(false);
 
     useEffect(() => {
         const loadData = async () => {
@@ -71,6 +73,14 @@ export const Staff = () => {
 
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
+            
+            <div className="d-flex justify-content-end p-3">
+                <Button variant="outline-primary" 
+                    onClick={
+                        ()=> setShowAddForm(true)}
+                >Add Member</Button>
+            </div>    
+            
             <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
 
                 <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
@@ -120,6 +130,10 @@ export const Staff = () => {
                 update = {UpdateStaff}
                 handelUpdateState = {handelUpdateState}
                 handleOnClose = {handleOnClose}
+            />
+
+            <StaffAdd
+                show={showAddForm}
             />
         </div>
     );

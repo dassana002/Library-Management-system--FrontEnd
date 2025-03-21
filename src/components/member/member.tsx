@@ -3,6 +3,7 @@ import Table from "react-bootstrap/esm/Table";
 import { DeleteMember, GetAllMembers, UpdateMember } from "../../service/Member";
 import Button from "react-bootstrap/esm/Button";
 import { MemberEdit } from "./MemberEdit";
+import { MemberAdd } from "./MemberAdd";
 
 export interface Members {
     memberId: string;
@@ -25,6 +26,7 @@ export const Member = () => {
     const [members, setMembers] = useState<Members[]>([]);
     const [showEditForm, setShowEditForm] = useState(false);
     const [selectedRow, setSelectedRow] = useState<Members | null>(null);
+    const [showAddForm, setShowAddForm] = useState(false);
 
     useEffect(() => {
         const loadData = async () => {
@@ -66,6 +68,14 @@ export const Member = () => {
 
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
+            
+            <div className="d-flex justify-content-end p-3">
+                <Button variant="outline-primary" 
+                    onClick={
+                        ()=> setShowAddForm(true)}
+                >Add Member</Button>
+            </div>
+            
             <Table striped bordered hover style={{ minWidth: "600px" }}>
                 <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
                     <tr>
@@ -89,8 +99,7 @@ export const Member = () => {
                     ))}
                 </tbody>
             </Table>
-
-            {showEditForm && (
+                
                 <MemberEdit
                     show={showEditForm}
                     selectedRow={selectedRow}
@@ -98,7 +107,10 @@ export const Member = () => {
                     updateMember={UpdateMember}
                     handleUpdateState={handleUpdateState}
                 />
-            )}
+
+            <MemberAdd
+                
+            />    
         </div>
     );
 };

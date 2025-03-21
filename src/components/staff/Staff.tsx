@@ -69,6 +69,7 @@ export const Staff = () => {
 
     const handleOnClose = ()=> {
         setShowEditForm(false);
+        setShowAddForm(false);
     } 
 
     return (
@@ -134,6 +135,7 @@ export const Staff = () => {
 
             <StaffAdd
                 show={showAddForm}
+                handleOnClose= {handleOnClose}
             />
         </div>
     );

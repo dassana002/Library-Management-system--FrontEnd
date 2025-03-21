@@ -7,10 +7,10 @@ import { useState } from "react";
 
 interface Pops {
     show : boolean;
-
+    handleOnClose :()=> void;
 }
 
-export const StaffAdd = ({show} :Pops) => {
+export const StaffAdd = ({show, handleOnClose} :Pops) => {
 
     const [NewStaff , setNewStaff] = useState<Staff>(
         {
@@ -98,7 +98,7 @@ export const StaffAdd = ({show} :Pops) => {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="secondary">Close</Button>
+                    <Button variant="secondary" onClick={handleOnClose}>Close</Button>
                     <Button variant="primary">Save changes</Button>
                 </Modal.Footer>
             </Modal>

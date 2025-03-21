@@ -1,13 +1,19 @@
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/esm/Modal";
 
-export const MemberAdd = () => {
+interface Pops{
+    show :boolean;
+}
+
+export const MemberAdd = ({show} :Pops) => {
     return (
         <div
             className="modal show"
             style={{ display: 'block', position: 'initial' }}
         >
-            <Modal.Dialog>
+            <Modal
+                show={show}
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Modal title</Modal.Title>
                 </Modal.Header>
@@ -20,7 +26,7 @@ export const MemberAdd = () => {
                     <Button variant="secondary">Close</Button>
                     <Button variant="primary">Save changes</Button>
                 </Modal.Footer>
-            </Modal.Dialog>
+            </Modal>
         </div>
     );
 }

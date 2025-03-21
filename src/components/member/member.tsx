@@ -109,7 +109,7 @@ export const Member = () => {
                 />
 
             <MemberAdd
-                
+                show = {showAddForm}
             />    
         </div>
     );

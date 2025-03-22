@@ -85,7 +85,7 @@ export const Staff = () => {
                 <Button variant="outline-primary" 
                     onClick={
                         ()=> setShowAddForm(true)}
-                >Add Member</Button>
+                >Add Staff</Button>
             </div>    
             
             <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>

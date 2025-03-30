@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = "http://localhost:1000/librarySoftware/api/v1/book";
+const baseUrl = "http://localhost:1111/librarySoftware/api/v1/book";
 
 export const GetBooks = async() => {
     try {
@@ -14,6 +14,7 @@ export const GetBooks = async() => {
 export const GetBookbyId = async(book :string ) => {
     try {
         const response = await axios.get(`${baseUrl}/${book}`);
+        console.log(response);
         return response.data;
     } catch (err) {
         console.error(err);

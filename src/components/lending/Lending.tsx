@@ -95,22 +95,31 @@ export const Lending = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {lendings.map((row, rowIndex) => (
-                        <tr key={row.lendingId || rowIndex}>
-                            <td>{rowIndex + 1}</td>
-                            <td>{row.lendingId}</td>
-                            <td>{row.bookId}</td>
-                            <td>{row.memberId}</td>
-                            <td>{row.isActive ? "Yes" : "No"}</td>
-                            <td>{row.overDue}</td>
-                            <td>{row.fineAmount}</td>
-                            <td>
-                                <Button variant="outline-secondary" onClick={() => handleEdit(row)}>Edit</Button>
-                                <Button variant="outline-danger" onClick={() => handleDelete(row.lendingId)}>Delete</Button>
+                    {lendings.length > 0 ? (
+                        lendings.map((row, rowIndex) => (
+                            <tr key={row.lendingId || rowIndex}>
+                                <td>{rowIndex + 1}</td>
+                                <td>{row.lendingId}</td>
+                                <td>{row.bookId}</td>
+                                <td>{row.memberId}</td>
+                                <td>{row.isActive ? "Yes" : "No"}</td>
+                                <td>{row.overDue}</td>
+                                <td>{row.fineAmount}</td>
+                                <td>
+                                    <Button variant="outline-secondary" onClick={() => handleEdit(row)}>Edit</Button>
+                                    <Button variant="outline-danger" onClick={() => handleDelete(row.lendingId)}>Delete</Button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan={tHeadings.length + 1} className="text-center text-muted">
+                                No books available.
                             </td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
+
 
             </Table>
 

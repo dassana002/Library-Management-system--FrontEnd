@@ -22,7 +22,7 @@ export interface Books {
 
 export const Book = () => {
     // const location = useLocation(); 
-    
+
     const tHeadings: string[] = [
         "BookId",
         "Title",
@@ -47,13 +47,15 @@ export const Book = () => {
         const loadData = async () => {
             try {
                 const getAllBooks = await GetBooks();
-                setBooks(getAllBooks || []);
+                setBooks(getAllBooks || []);  // Ensure it's always an array
             } catch (error) {
                 console.error("Error fetching books:", error);
+                setBooks([]); // Default to empty array on error
             }
         };
         loadData();
     }, []);
+
 
     // Update Book
     const handleOnEdit = (row: Books) => {
@@ -83,70 +85,79 @@ export const Book = () => {
         }
     };
 
-    const handleAdd = (newBook :Books)=> {
-        setBooks((prev)=> [...prev , newBook]);
+    const handleAdd = (newBook: Books) => {
+        setBooks((prev) => [...prev, newBook]);
     }
 
     return (
         <div>
-        <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
+            <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
 
-            <div className="d-flex justify-content-end p-3">
-                <Button variant="outline-primary" 
-                    onClick={
-                        ()=> setShowAddForm(true)}
-                >Add Book</Button>
-            </div>
+                <div className="d-flex justify-content-end p-3">
+                    <Button variant="outline-primary"
+                        onClick={
+                            () => setShowAddForm(true)}
+                    >Add Book</Button>
+                </div>
 
-            <Table striped bordered hover style={{ minWidth: "600px" }}>
-                <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
-                    <tr>
-                        <th scope="col">#</th>
-                        {tHeadings.map((heading, index) => (
-                            <th key={index} scope="col">{heading}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {books.map((row, rowIndex) => (
-                        <tr key={row.bookId}>
-                            <th scope="row">{rowIndex + 1}</th>
-                            <td>{row.bookId}</td>
-                            <td>{row.title}</td>
-                            <td>{row.publisher}</td>
-                            <td>{row.isbn}</td>
-                            <td>{row.author}</td>
-                            <td>{row.edition}</td>
-                            <td>{row.price}</td>
-                            <td>{row.totalQty}</td>
-                            <td>{row.avilableQty}</td>
-                            <td>{row.lastUpdatedDate}</td>
-                            <td>{row.lastUpdatedTime}</td>
-                            <td>
-                                <Button variant="outline-secondary" onClick={() => handleOnEdit(row)}> Edit </Button>
-                                <Button variant="outline-danger" onClick={() => handleOnDelete(row.bookId)}> Delete </Button>
-                            </td>
+                <Table striped bordered hover style={{ minWidth: "600px" }}>
+                    <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
+                        <tr>
+                            <th scope="col">#</th>
+                            {tHeadings.map((heading, index) => (
+                                <th key={index} scope="col">{heading}</th>
+                            ))}
                         </tr>
-                    ))}
-                </tbody>
-            </Table>
+                    </thead>
+                    <tbody>
+                        {books?.length > 0 ? (
+                            books.map((row, rowIndex) => (
+                                <tr key={row.bookId}>
+                                    <th scope="row">{rowIndex + 1}</th>
+                                    <td>{row.bookId}</td>
+                                    <td>{row.title}</td>
+                                    <td>{row.publisher}</td>
+                                    <td>{row.isbn}</td>
+                                    <td>{row.author}</td>
+                                    <td>{row.edition}</td>
+                                    <td>{row.price}</td>
+                                    <td>{row.totalQty}</td>
+                                    <td>{row.avilableQty}</td>
+                                    <td>{row.lastUpdatedDate}</td>
+                                    <td>{row.lastUpdatedTime}</td>
+                                    <td>
+                                        <Button variant="outline-secondary" onClick={() => handleOnEdit(row)}> Edit </Button>
+                                        <Button variant="outline-danger" onClick={() => handleOnDelete(row.bookId)}> Delete </Button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={tHeadings.length + 1} className="text-center text-muted">
+                                    No books available.
+                                </td>
+                            </tr>
+                        )}
+
+                    </tbody>
+                </Table>
 
 
-            <BookEdit
-                show={showEditForm}
-                selectedRow={selectedRow}
-                handleOnClose={handleOnClose}
-                updateBooks={UpdateBooks}
-                handleUpdateState={handleUpdateState}
-            />
+                <BookEdit
+                    show={showEditForm}
+                    selectedRow={selectedRow}
+                    handleOnClose={handleOnClose}
+                    updateBooks={UpdateBooks}
+                    handleUpdateState={handleUpdateState}
+                />
 
-            <BookAdd
-                show ={showAddForm}
-                handleOnClose={()=> setShowAddForm(false)}
-                addbooks={AddBook}
-                handleAdd={handleAdd}
-            />        
-        </div>
+                <BookAdd
+                    show={showAddForm}
+                    handleOnClose={() => setShowAddForm(false)}
+                    addbooks={AddBook}
+                    handleAdd={handleAdd}
+                />
+            </div>
         </div>
     );
 };

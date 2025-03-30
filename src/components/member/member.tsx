@@ -38,7 +38,7 @@ export const Member = () => {
             }
         };
         loadData();
-    }, [members]); 
+    }, [members]);
 
     const handleDelete = async (memberId: string) => {
         try {
@@ -62,12 +62,12 @@ export const Member = () => {
         );
     };
 
-    const handleAdd = async(newMember :Members)=> {
+    const handleAdd = async (newMember: Members) => {
         try {
             await SaveMember(newMember);
             setMembers(
-                (prevs)=> 
-                    [...prevs , newMember]);
+                (prevs) =>
+                    [...prevs, newMember]);
         } catch (error) {
             console.error(error);
         }
@@ -80,14 +80,14 @@ export const Member = () => {
 
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
-            
+
             <div className="d-flex justify-content-end p-3">
-                <Button variant="outline-primary" 
+                <Button variant="outline-primary"
                     onClick={
-                        ()=> setShowAddForm(true)}
+                        () => setShowAddForm(true)}
                 >Add Member</Button>
             </div>
-            
+
             <Table striped bordered hover style={{ minWidth: "600px" }}>
                 <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
                     <tr>
@@ -97,35 +97,44 @@ export const Member = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {members.map((row, rowIndex) => (
-                        <tr key={row.memberId}>
-                            <td>{rowIndex+1}</td>
-                            {Object.values(row).map((cell, index)=>(
-                                <td key={index}>{cell}</td>
-                            ))}
-                            <td>
-                                <Button variant="outline-secondary" onClick={() => handleEdit(row)}> Edit </Button>
-                                <Button variant="outline-danger" onClick={() => handleDelete(row.memberId)}> Delete </Button>
+                    {members.length > 0 ? (
+                        members.map((row, rowIndex) => (
+                            <tr key={row.memberId}>
+                                <td>{rowIndex + 1}</td>
+                                {Object.values(row).map((cell, index) => (
+                                    <td key={index}>{cell}</td>
+                                ))}
+                                <td>
+                                    <Button variant="outline-secondary" onClick={() => handleEdit(row)}> Edit </Button>
+                                    <Button variant="outline-danger" onClick={() => handleDelete(row.memberId)}> Delete </Button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan={tHeadings.length + 1} className="text-center text-muted">
+                                No members available.
                             </td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
+
             </Table>
-                
-                <MemberEdit
-                    show={showEditForm}
-                    selectedRow={selectedRow}
-                    handleOnClose={handleOnClose}
-                    updateMember={UpdateMember}
-                    handleUpdateState={handleUpdateState}
-                />
+
+            <MemberEdit
+                show={showEditForm}
+                selectedRow={selectedRow}
+                handleOnClose={handleOnClose}
+                updateMember={UpdateMember}
+                handleUpdateState={handleUpdateState}
+            />
 
             <MemberAdd
-                show = {showAddForm}
-                handleOnClose = {handleOnClose}
-                update = {UpdateMember}
+                show={showAddForm}
+                handleOnClose={handleOnClose}
+                update={UpdateMember}
                 handleAdd={handleAdd}
-            />    
+            />
         </div>
     );
 };

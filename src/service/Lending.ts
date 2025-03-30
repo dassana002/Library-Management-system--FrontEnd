@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:1000/librarySoftware/api/v1/lending"
+const baseURL = "http://localhost:1111/librarySoftware/api/v1/lending"
 
 export const GetAllLending = async()=> {
     try {

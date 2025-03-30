@@ -39,11 +39,12 @@ export const Lending = () => {
                 const getAllData = await GetAllLending();
                 setLendings(getAllData);
             } catch (err) {
-                console.error(err);
+                console.error("Error fetching lendings:", err);
             }
         };
         loadData();
-    }, [lendings]); 
+    }, []);
+
 
     const handleDelete = async (lendingId: string) => {
         try {
@@ -73,7 +74,7 @@ export const Lending = () => {
     };
 
     const handleState = (newLending: Lendings) => {
-        setLendings((prevLendings) => [...prevLendings, newLending]);  
+        setLendings((prevLendings) => [...prevLendings, newLending]);
     };
 
     return (
@@ -95,7 +96,7 @@ export const Lending = () => {
                 </thead>
                 <tbody>
                     {lendings.map((row, rowIndex) => (
-                        <tr key={row.lendingId}>
+                        <tr key={row.lendingId || rowIndex}>
                             <td>{rowIndex + 1}</td>
                             <td>{row.lendingId}</td>
                             <td>{row.bookId}</td>

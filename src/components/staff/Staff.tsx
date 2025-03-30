@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Table from "react-bootstrap/esm/Table";
+import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
 import { DeleteStaff, GetAllStaff, SaveStaff, UpdateStaff } from "../../service/Staff";
-import Button from "react-bootstrap/esm/Button";
 import { StaffEdit } from "./StaffEdit";
 import { StaffAdd } from "./StaffAdd";
 
@@ -14,17 +14,8 @@ export interface Staff {
 }
 
 export const Staff = () => {
-
     const tHeadings: string[] = [
-        "#",
-        "StaffId",
-        "FirstName",
-        "LastName",
-        "Email",
-        "JoinDate",
-        "LastUpdated",
-        "Role",
-        "Options"
+        "#", "StaffId", "FirstName", "LastName", "Email", "JoinDate", "LastUpdated", "Role", "Options"
     ];
 
     const [staffs, setStaff] = useState<Staff[]>([]);
@@ -34,116 +25,106 @@ export const Staff = () => {
 
     useEffect(() => {
         const loadData = async () => {
-            const getAll = await GetAllStaff();
-            setStaff(getAll);
-        }
-
+            try {
+                const getAll = await GetAllStaff();
+                setStaff(getAll || []); // Ensures an empty array if data is undefined
+            } catch (error) {
+                console.error("Failed to fetch staff data", error);
+                setStaff([]); // Prevents undefined state
+            }
+        };
         loadData();
-    },[staffs])
+    }, []); // ✅ Runs only once when component mounts
 
-    const handleEdit = (staff :Staff) => {
+    const handleEdit = (staff: Staff) => {
         setShowEditForm(true);
         setSelectedRow(staff);
-    }
+    };
 
-    const handelUpdateState = (updatestaff :Staff)=> {
-        const updateStaffs = staffs.map((staff)=> 
-            staff.staffId === updatestaff.staffId ? updatestaff : staff   
-        )
+    const handleUpdateState = (updatedStaff: Staff) => {
+        setStaff(prevStaffs => prevStaffs.map(staff => 
+            staff.staffId === updatedStaff.staffId ? updatedStaff : staff
+        ));
+    };
 
-        setStaff(updateStaffs);
-    }
-
-    const handleDelete = async(staffId :string) => {
+    const handleDelete = async (staffId: string) => {
         try {
             await DeleteStaff(staffId);
-            setStaff(
-                staffs.filter((staff)=>
-                    staff.staffId !== staffId
-                )
-            )
+            setStaff(prevStaffs => prevStaffs.filter(staff => staff.staffId !== staffId));
         } catch (err) {
-            console.error(err);
+            console.error("Error deleting staff:", err);
         }
-    }
+    };
 
-    const handleOnClose = ()=> {
+    const handleOnClose = () => {
         setShowEditForm(false);
         setShowAddForm(false);
-    } 
+    };
 
-    const handleAdd = (newStaff :Staff)=>{
-        setStaff((prev)=> (
-            [...prev , newStaff]
-        ));
-    }
+    const handleAdd = (newStaff: Staff) => {
+        setStaff(prev => [...prev, newStaff]);
+    };
 
     return (
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
-            
             <div className="d-flex justify-content-end p-3">
-                <Button variant="outline-primary" 
-                    onClick={
-                        ()=> setShowAddForm(true)}
-                >Add Staff</Button>
-            </div>    
+                <Button variant="outline-primary" onClick={() => setShowAddForm(true)}>
+                    Add Staff
+                </Button>
+            </div>
             
-            <Table striped="columns" style={{ minWidth: "600px", borderCollapse: "separate" }}>
-
-                <thead style={{ position: "sticky", top: 0, background: "#fff", zIndex: 2 }}>
+            <Table striped bordered hover>
+                <thead className="bg-light">
                     <tr>
-                        {tHeadings.map((Header) => (
-                            <th>{Header}</th>
+                        {tHeadings.map((header, index) => (
+                            <th key={index}>{header}</th>
                         ))}
                     </tr>
                 </thead>
-
+                
                 <tbody>
-                    {staffs.map((row, index) =>
+                    {staffs.length > 0 ? staffs.map((row, index) => (
                         <tr key={row.staffId}>
-                        <td>{index + 1}</td>
-                            {Object.values(row).map((cell, index) =>
-                                <td key={index}>{cell}</td>
-                            )}
-                            <th>
-                                <Button variant="outline-secondary"
-                                    onClick={
-                                        ()=> handleEdit(row)
-                                    }
-                                > Edit </Button>
-                                <Button variant="outline-danger"
-                                    onClick={
-                                        ()=> handleDelete(row.staffId)
-                                    }
-                                > Delete </Button>
-                            </th>
+                            <td>{index + 1}</td>
+                            {Object.values(row).map((cell, idx) => (
+                                <td key={idx}>{cell}</td>
+                            ))}
+                            <td>
+                                <Button variant="outline-secondary" size="sm" onClick={() => handleEdit(row)}>
+                                    Edit
+                                </Button>
+                                {' '}
+                                <Button variant="outline-danger" size="sm" onClick={() => handleDelete(row.staffId)}>
+                                    Delete
+                                </Button>
+                            </td>
+                        </tr>
+                    )) : (
+                        <tr>
+                            <td colSpan={tHeadings.length} className="text-center text-muted">
+                                No staff data available.
+                            </td>
                         </tr>
                     )}
-
                 </tbody>
-
-                <tfoot style={{ position: "sticky", bottom: 0, background: "#fff", zIndex: 2 }}>
-                    <tr>
-                        <td colSpan={tHeadings.length + 2}
-                            style={{ textAlign: "center", fontWeight: "bold", padding: "10px" }}></td>
-                    </tr>
-                </tfoot>
             </Table>
-            
-            <StaffEdit
-                show = {showEditForm}
-                selectedRow = {selectedRow}
-                update = {UpdateStaff}
-                handelUpdateState = {handelUpdateState}
-                handleOnClose = {handleOnClose}
-            />
 
+            {/* Edit Staff Form */}
+            <StaffEdit
+                show={showEditForm}
+                selectedRow={selectedRow}
+                update={UpdateStaff}
+                handelUpdateState={handleUpdateState}
+                handleOnClose={handleOnClose}
+            />
+            
+            {/* Add Staff Form */}
             <StaffAdd
                 show={showAddForm}
-                handleOnClose= {handleOnClose}
+                handleOnClose={handleOnClose}
                 update={SaveStaff}
                 handleAdd={handleAdd}
             />
         </div>
     );
-}
+};

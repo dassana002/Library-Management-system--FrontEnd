@@ -1,51 +1,109 @@
-import { Button, Container, Form } from "react-bootstrap";
-import { Link } from "react-router";
+import { useState } from "react";
+import { Button, Form,FloatingLabel } from "react-bootstrap";
 
-export const Signup = ()=> {
-    return(
-        <Container className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
-            <div className="border rounded p-5 shadow-lg bg-white" style={{ width: "450px" }}>
-                
-                <h3 className="text-center mb-4 fs-4">Sign Up</h3>
-                
-                <Form className="Signup-form">
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label className="fs-5">First Name</Form.Label>
-                        <Form.Control type="text" placeholder="First Name" size="sm" />
-                    </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label className="fs-5">Last Name</Form.Label>
-                        <Form.Control type="text" placeholder="Last Name" size="sm" />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label className="fs-5">Email</Form.Label>
-                        <Form.Control type="email" placeholder="Email" size="sm" />
-                        <Form.Text >We'll never share your email with anyone else.</Form.Text>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label className="fs-5">Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" size="sm" />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label className="fs-5">Role</Form.Label>
-                        <Form.Control type="text" placeholder="Role" size="sm" />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Check me out" className="fs-6" />
-                    </Form.Group>
-                    
-                    <Button variant="primary" type="submit" className="w-100 fs-5 p-2">Submit</Button>
-
-                    <div className="text-center mt-4">
-                        <p className="mb-0 fs-6">I have an account? <Link to="/signin">SignIn</Link></p>
-                    </div>
-                </Form>
-            </div>
-        </Container>
-    );
+interface SignUp {
+    // userId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    role?: Role;
 }
+
+enum Role {
+    ADMIN = "ADMIN",
+    OFFICER = "OFFICER",
+    LIBRARIAN = "LIBRARIAN"
+}
+
+export const SignUp = () => {
+
+    const [signUp, setSignUp] = useState<SignUp>({
+        // userId: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        role: undefined
+    })
+
+    const handleReset = () => {
+        setSignUp({
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            role: undefined
+        })
+    }
+
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        setSignUp({ ...signUp, [e.target.name]: e.target.value });
+    }
+
+    const handleOnSubmit = async () => {
+        //API req
+        console.log(JSON.stringify(signUp))
+        handleReset()
+    }
+
+    return (
+        <>
+            <div className="mx-auto w-50 mt-5">
+                <h1>SignUp Portal</h1>
+                <Form>
+                    <FloatingLabel
+                        controlId="floatingInput"
+                        label="First Name"
+                        className="mb-3"
+                    >
+                        <Form.Control type="text" name="firstName" value={signUp.firstName} onChange={handleOnChange} />
+                    </FloatingLabel>
+
+                    <FloatingLabel
+                        controlId="floatingInput"
+                        label="Last Name"
+                        className="mb-3"
+                    >
+                        <Form.Control type="text" name="lastName" value={signUp.lastName} onChange={handleOnChange} />
+                    </FloatingLabel>
+
+                    <FloatingLabel
+                        controlId="floatingInput"
+                        label="Email"
+                        className="mb-3"
+                    >
+                        <Form.Control type="email" name="email" value={signUp.email} onChange={handleOnChange} />
+                    </FloatingLabel>
+
+                    <FloatingLabel
+                        controlId="floatingInput"
+                        label="Password"
+                        className="mb-3"
+                    >
+                        <Form.Control type="password" name="password" value={signUp.password} onChange={handleOnChange} />
+                    </FloatingLabel>
+
+                    <FloatingLabel controlId="floatingRole" label="Role" className="mb-3">
+                        <Form.Select
+                            name="role"
+                            value={signUp.role || ""}
+                            onChange={handleOnChange}
+                        >
+                            <option value="">Select Role</option>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="LIBRARIAN">LIBRARIAN</option>
+                            <option value="OFFICER">OFFICER</option>
+                        </Form.Select>
+                    </FloatingLabel>
+                </Form>
+
+                <Button variant="success" onClick={handleOnSubmit}>SignIn</Button>
+                <Button variant="danger" className="mx-2">
+                    Reset
+                </Button>
+            </div>
+        </>
+    );
+};

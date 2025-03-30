@@ -89,7 +89,6 @@ export const Book = () => {
 
     return (
         <div>
-        {/* <div>Current Path: {location.pathname}</div> */}
         <div style={{ maxHeight: "2000px", overflow: "auto", border: "2px solid #ddd" }}>
 
             <div className="d-flex justify-content-end p-3">

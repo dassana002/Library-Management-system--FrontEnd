@@ -37,10 +37,12 @@ export const LendingAdd = ({ show, handleOnClose, update, handleState }: Props) 
         const payload = {
             bookId: newLending.bookId,
             memberId: newLending.memberId,
-            isActive: newLending.isActive,
-            overDue: newLending.overDue,
-            fineAmount: newLending.fineAmount
+            isActive: Boolean(newLending.isActive),
+            overDue: Number(newLending.overDue),
+            fineAmount: Number(newLending.fineAmount)
         };
+        
+        
     
         console.log("Submitting Lending Data:", JSON.stringify(payload, null, 2));
     

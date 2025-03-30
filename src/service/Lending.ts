@@ -31,10 +31,7 @@ export const UpdateLending = async(row :any)=> {
 
 export const SaveLending = async (newLending: any) => {
     try {
-        const resp = await axios.post(`${baseURL}/Add`, newLending, {
-            headers: { "Content-Type": "application/json" }
-        });
-        return resp.data;
+        await axios.post(`${baseURL}/Add`, newLending);
     } catch (error: any) {
         console.error("API Error:", error.response?.data || error.message);
     }

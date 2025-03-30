@@ -27,14 +27,14 @@ export const Staff = () => {
         const loadData = async () => {
             try {
                 const getAll = await GetAllStaff();
-                setStaff(getAll || []); // Ensures an empty array if data is undefined
+                setStaff(getAll || []); 
             } catch (error) {
                 console.error("Failed to fetch staff data", error);
-                setStaff([]); // Prevents undefined state
+                setStaff([]); 
             }
         };
         loadData();
-    }, []); // ✅ Runs only once when component mounts
+    }, []);
 
     const handleEdit = (staff: Staff) => {
         setShowEditForm(true);

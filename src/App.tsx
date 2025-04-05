@@ -7,20 +7,23 @@ import { NavBar } from "./components/NavBar";
 import { Staff } from "./components/staff/Staff";
 import { SignIn } from "./components/user/Signin";
 import { SignUp } from "./components/user/Signup";
+import { AuthProvider } from "./components/auth/AuthProvider";
 
 function App() {
   return (
     <div>
       <NavBar />
-      <Routes>
-        <Route path="/" element={<Book />} />
-        <Route path="/book" element={<Book />} />
-        <Route path="/staff" element={<Staff />} />
-        <Route path="/members" element={<Member />} />
-        <Route path="/lending" element={<Lending />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Book />} />
+          <Route path="/book" element={<Book />} />
+          <Route path="/staff" element={<Staff />} />
+          <Route path="/members" element={<Member />} />
+          <Route path="/lending" element={<Lending />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </AuthProvider>
     </div>
   );
 }

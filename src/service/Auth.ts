@@ -8,7 +8,7 @@ const SignUpReq = async (signUp: any) => {
             `${baseAuthUrl}/signUp`,
             signUp
         );
-        return response.data.token;    // Backend eken ena new token eka return kranwa
+        return response.data.token;      // Backend eken ena new token eka return kranwa
         
     } catch (err) {
         console.log(err);
@@ -22,7 +22,7 @@ const SignInReq = async (signIn: any) => {
             `${baseAuthUrl}/signIn`,
             signIn
         );
-        return response.data.token;  // Backend eken ena token eka return kranwa
+        return response.data.token;     // Backend eken ena token eka return kranwa
 
     } catch (err) {
         console.error(err)

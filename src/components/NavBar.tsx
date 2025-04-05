@@ -9,7 +9,6 @@ export const NavBar = () => {
     // authenticated unata passe tmi tables load wenne
     const { isAuthenticated } = useAuth();
 
-
     // Conditional Rending (condition ekk matha UI component return weno)
     return (
         <div>

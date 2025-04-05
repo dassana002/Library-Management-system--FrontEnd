@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Button, Form,FloatingLabel } from "react-bootstrap";
+import { Button, Form, FloatingLabel } from "react-bootstrap";
 import { SignUpReq } from "../../service/Auth";
+import { useAuth } from "../auth/AuthProvider";
+import { useNavigate } from "react-router";
 
 
 interface SignUp {
@@ -29,6 +31,13 @@ export const SignUp = () => {
         role: undefined
     })
 
+    // apita hambuwena token eka useAuth() fuction eken AuthContext ekata dano
+    const { login } = useAuth();
+
+    // React-router 
+    // signup component eken navigate kranwa wenath UI ekakata
+    const navigate = useNavigate();
+
     const handleReset = () => {
         setSignUp({
             firstName: "",
@@ -43,12 +52,13 @@ export const SignUp = () => {
         setSignUp({ ...signUp, [e.target.name]: e.target.value });
     }
 
-    const handleOnSubmit = async() => {
+    const handleOnSubmit = async () => {
         //API req
         console.log(JSON.stringify(signUp))
         const token = await SignUpReq(signUp);
-        console.log(token);
+        login(token)
         handleReset();
+        navigate("/book")
     }
 
     return (

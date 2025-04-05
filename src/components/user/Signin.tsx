@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button, Form, FloatingLabel } from "react-bootstrap";
 import { SignInReq } from "../../service/Auth";
+import { useAuth } from "../auth/AuthProvider";
+import { useNavigate } from "react-router";
 
 
 
@@ -18,6 +20,12 @@ export const SignIn = () => {
     password: ""
   })
 
+  // apita hambuwena token eka useAuth() fuction eken AuthContext ekata dano
+  const { login } = useAuth();
+
+  // React-router 
+  // signin component eken navigate kranwa wenath UI ekakata
+  const navigate = useNavigate();
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignIn({ ...signIn, [e.target.name]: e.target.value });
@@ -35,8 +43,9 @@ export const SignIn = () => {
     e.preventDefault();
     console.log(JSON.stringify(signIn))
     const token = await SignInReq(signIn);
-    console.log(signIn);
+    login(token);
     handleReset();
+    navigate("/book");
   }
   return (
     <>

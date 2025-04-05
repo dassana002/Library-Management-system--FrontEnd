@@ -58,7 +58,7 @@ export const SignUp = () => {
         const token = await SignUpReq(signUp);
         login(token)
         handleReset();
-        navigate("/book")
+        navigate("/book");
     }
 
     return (

@@ -4,9 +4,6 @@ import { SignInReq } from "../../service/Auth";
 import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router";
 
-
-
-
 interface SignIn {
   email: string;
   password: string;

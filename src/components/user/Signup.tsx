@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Form,FloatingLabel } from "react-bootstrap";
+import { SignUpReq } from "../../service/Auth";
 
 
 interface SignUp {
@@ -45,6 +46,7 @@ export const SignUp = () => {
     const handleOnSubmit = async () => {
         //API req
         console.log(JSON.stringify(signUp))
+        await SignUpReq(signUp);
         handleReset()
     }
 

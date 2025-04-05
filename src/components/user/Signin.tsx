@@ -34,9 +34,9 @@ export const SignIn = () => {
     //API req
     e.preventDefault();
     console.log(JSON.stringify(signIn))
-    //handleReset()
     const token = await SignInReq(signIn);
     console.log(signIn);
+    handleReset();
   }
   return (
     <>

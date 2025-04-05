@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Form, FloatingLabel } from "react-bootstrap";
+import { SignInReq } from "../../service/Auth";
 
 
 
@@ -34,6 +35,8 @@ export const SignIn = () => {
     e.preventDefault();
     console.log(JSON.stringify(signIn))
     //handleReset()
+    const token = await SignInReq(signIn);
+    console.log(signIn);
   }
   return (
     <>

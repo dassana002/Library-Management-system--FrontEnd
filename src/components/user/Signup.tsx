@@ -46,8 +46,9 @@ export const SignUp = () => {
     const handleOnSubmit = async() => {
         //API req
         console.log(JSON.stringify(signUp))
-        await SignUpReq(signUp);
-        handleReset()
+        const token = await SignUpReq(signUp);
+        console.log(token);
+        handleReset();
     }
 
     return (

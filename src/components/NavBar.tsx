@@ -1,37 +1,52 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import { NavLink } from 'react-router';
-import { useAuth } from './auth/AuthProvider';
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "./auth/AuthProvider";
 
 export const NavBar = () => {
-    // signin unata passe access lebenna one widiyata nav bar eken handle kranwa
-    // authenticated unata passe tmi tables load wenne
-    const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
 
-    // Conditional Rending (condition ekk matha UI component return weno)
-    return (
-        <div>
-            <Navbar bg="dark" data-bs-theme="dark">
-                <Container>
-                    <Nav className="me-auto">
-                        {isAuthenticated ? (
-                            <>
-                                <Nav.Link as={NavLink} to="/book">Book</Nav.Link>
-                                <Nav.Link as={NavLink} to="/staff">Staff</Nav.Link>
-                                <Nav.Link as={NavLink} to="/members">Members</Nav.Link>
-                                <Nav.Link as={NavLink} to="/lending">Lendings</Nav.Link>
-                            </>
-                        ) : (
-                            <>
-                                <Nav.Link as={NavLink} to="/signin">SignIn</Nav.Link>
-                                <Nav.Link as={NavLink} to="/signup">SignUp</Nav.Link>
-                            </>
-                        )
-                        }
-                    </Nav>
-                </Container>
-            </Navbar>
-        </div>
-    );
-}
+  const handleLogout = () => {
+    logout();        // Remove token, set isAuthenticated to false
+    navigate("/");   // Redirect to SignIn page
+  };
+
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light px-4">
+      <Link className="navbar-brand" to="/">Library</Link> 
+
+      <div className="collapse navbar-collapse">
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          {isAuthenticated ? (
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/book">Books</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/staff">Staff</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/members">Members</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/lending">Lending</Link>
+              </li>
+              <li className="nav-item">
+                <button className="btn btn-outline-danger" onClick={handleLogout}>Logout</button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/signin">Sign In</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/signup">Sign Up</Link>
+              </li>
+            </>
+          )}
+        </ul>
+      </div>
+    </nav>
+  );
+};
+

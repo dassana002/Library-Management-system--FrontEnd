@@ -43,7 +43,7 @@ export const SignUp = () => {
         setSignUp({ ...signUp, [e.target.name]: e.target.value });
     }
 
-    const handleOnSubmit = async () => {
+    const handleOnSubmit = async() => {
         //API req
         console.log(JSON.stringify(signUp))
         await SignUpReq(signUp);

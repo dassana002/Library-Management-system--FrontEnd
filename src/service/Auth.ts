@@ -8,6 +8,7 @@ const SignUpReq = async (signUp: any) => {
             `${baseAuthUrl}/signUp`,
             signUp
         );
+        return signUpResponse.data.token;
     } catch (err) {
         console.log(err);
         throw err;
